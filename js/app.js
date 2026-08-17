@@ -6,6 +6,7 @@ import { calcView, frameworksView, promptsView, templatesView, interviewView, gl
 import { trackPct, overallPct } from './progress.js';
 import { ensoMark, brushRule, brushDot, brushCheck, brushFlourish } from '../data/brush.js';
 import { initPWA } from './pwa.js';
+import { toast } from './toast.js';
 
 const main = document.getElementById('main');
 const nav = document.getElementById('sidenavInner');
@@ -337,7 +338,8 @@ document.addEventListener('click', e => {
     const old = btn.textContent;
     btn.textContent = 'Copied';
     setTimeout(() => { btn.textContent = old; }, 1300);
-  });
+    toast({ msg: 'Copied to clipboard.', timeout: 1600, icon: '❐' });
+  }).catch(() => toast({ msg: 'Clipboard blocked by the browser — select and copy manually.', timeout: 3600 }));
 });
 
 /* ─────────── touch swipe ─────────── */

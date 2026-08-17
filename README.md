@@ -1,6 +1,6 @@
 # Praxis
 
-An offline-first PWA for intermediate → senior practice across **copywriting, content strategy, CRO, go-to-market, and customer service**.
+An offline-first PWA for intermediate → senior practice across **copywriting, content strategy, CRO, go-to-market, strategic communications, and customer service**.
 
 Live: **https://bate-epey93.github.io/praxis/**
 
@@ -8,7 +8,7 @@ Built as a merge and large expansion of two earlier study apps (a Puffy CRO inte
 
 ## What's in it
 
-**17 study tracks**, grouped into six phases:
+**18 study tracks**, grouped into seven phases:
 
 | # | Track | Phase |
 |---|---|---|
@@ -27,10 +27,15 @@ Built as a merge and large expansion of two earlier study apps (a Puffy CRO inte
 | 13 | Data, Analytics & Measurement | Systems |
 | 14 | Content UX & Information Design | Systems |
 | 15 | AI Orchestration & Prompt Systems | Go-to-market |
+| 18 | Strategic Communications | Strategic comms |
 | 16 | Customer Service & CX Craft | Service & career |
 | 17 | Career as Product | Service & career |
 
 Each track carries: study sections with plain-English explainers, good/bad examples, benchmark data, real-world cases, senior-level pitfalls, five-minute drills, a junior/competent/senior rubric, per-section notes, and one **portfolio artefact** with step-by-step build guidance.
+
+Track 09 includes a dedicated **Writing for SEO and AEO** section built from Google's own documentation and rater guidelines: the interpretation ladder, title-link rewrite triggers, headings as argument, query fan-out coverage without padding, answer-first extractable passages, measured snippet display budgets, the passage-level edits with measured citation lift, and the cannibalisation / refresh / consolidate / delete ladder.
+
+Track 18 (**Strategic Communications**) covers corporate and executive narrative with investor-disclosure guardrails, internal comms and change, stakeholders and reputation, crisis and issues management, media relations and spokesperson craft, measurement against AMEC and Barcelona Principles V4.0, and comms operations including AI disclosure and synthetic-media response.
 
 **Workbench tools**
 
@@ -41,8 +46,9 @@ Each track carries: study sections with plain-English explainers, good/bad examp
 - Flashcards — Leitner-box spaced repetition over the full glossary
 - Mixed exam — 25 random questions under interview conditions
 - Interview bank — role-targeted questions with answer scaffolds
-- Glossary — 170+ terms
-- Progress & notes — per-track progress, notes export to Markdown, full data export/import
+- Glossary — 200+ terms
+- Progress & notes — per-track progress, notes export to Markdown, full data export/import, and a manual update check
+- Update toast — a new build prompts on device with **Update now / Later**, checked on resume, on reconnect and on a background interval
 
 ## Design
 
@@ -56,10 +62,13 @@ Each track carries: study sections with plain-English explainers, good/bad examp
 - No network calls at runtime: system font stack, no CDN, no analytics, no tracking.
 - All state (notes, progress, quiz scores, flashcard boxes) is in `localStorage` on the device. Export from **Progress & notes**.
 - Service worker precaches everything, so it works fully offline once opened. Installable on iOS, Android and desktop.
+- **Updates are user-controlled.** The service worker does not call `skipWaiting()` on install; a new build waits until the reader taps **Update now** in the in-app toast, so a page is never swapped mid-sentence. `js/pwa.js` re-checks on visibility change, on reconnect and every 20 minutes, which is what makes the prompt appear on a phone that never fully closes the app.
+- **Run `node tools/stamp-version.mjs` before every commit.** A browser only re-installs a service worker when `sw.js` itself changes, so the script hashes every precached file into `VERSION` (and `js/version.js`). Without it, content-only edits would leave installed devices serving the old cached build with no update prompt.
 - Light and dark themes; keyboard search with `/` or `⌘K`.
 - Generators (run only when the motif changes):
   - `node tools/make-brush.mjs` — brush path data from the EnsoKit engine
   - `node tools/make-icons.mjs` — rasterises the same ensō ring into PWA icons (dependency-free PNG encoder)
+  - `node tools/stamp-version.mjs` — **run before every commit**; stamps a content hash into `sw.js` and `js/version.js`
 
 ## Local development
 
@@ -71,4 +80,6 @@ Then open `http://localhost:8080`. A server is required — ES modules and servi
 
 ## Sources and accuracy
 
-Benchmark figures (ecommerce conversion and cart abandonment, email and cart-recovery performance, support response times, CSAT/FCR, GEO citation research, and 2026 hiring-market signals) are aggregated from published 2026 industry reporting and research surveys, and are labelled in-app as orientation rather than targets. Frameworks are attributed to their originators throughout.
+Benchmark figures (ecommerce conversion and cart abandonment, email and cart-recovery performance, support response times, CSAT/FCR, AI-citation and AI-Overview research, internal-comms and trust indices, media-relations surveys, and hiring-market signals) are drawn from published 2025–2026 industry reporting, institutional research and primary platform documentation. Every figure carries its source and date in-text and is labelled as orientation rather than a target. Frameworks are attributed to their originators or governing bodies throughout — AMEC, Coombs, Mitchell/Agle/Wood, IAP2, Prosci, Bridges, Kotter, PRSA, CIPR, the UK Government Communication Service, the CDC, Google Search Central and the Search Quality Rater Guidelines.
+
+Regulatory summaries (Regulation FD, non-GAAP prominence, GDPR Article 33, NIS2 Article 23, SEC Item 1.05, the EU Empowering Consumers Directive, the UK CMA Green Claims Code, FTC guidance) are dated and simplified for study. They move — verify the current position before relying on any of it.

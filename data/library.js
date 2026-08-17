@@ -52,6 +52,24 @@ export const FRAMEWORKS = [
   { n: 'Apology anatomy', src: 'Service practice', t: 16, use: 'Repair a real failure', steps: ['Name what happened specifically', 'Take proportionate responsibility', 'State the impact you understand', 'Say what is fixed and when', 'Say what prevents the repeat', 'Make it right'] },
   { n: 'Saying no well', src: 'Service practice', t: 16, use: 'Refuse without escalating', steps: ['Answer directly', 'One-sentence real reason', 'Nearest thing you can do (two options)', 'Leave the door open where honest'] },
   { n: 'Root-cause loop', src: 'CX practice', t: 16, use: 'Turn support into intelligence', steps: ['Tag root causes', 'Rank by volume × handle time × sentiment', 'Assign an owner per driver', 'Report in agent-hours and money', 'Feed product and marketing'] },
+  { n: 'OASIS comms planning', src: 'UK Government Communication Service', t: 18, use: 'Write a comms strategy a non-communicator will approve', steps: ['Objectives — SMART, derived from a business objective', 'Audience and insight', 'Strategy and idea', 'Implementation and sequencing', 'Scoring and evaluation, resourced up front'] },
+  { n: 'Five-beat corporate narrative', src: 'Andy Raskin (2016)', t: 18, use: 'One story that works on investors, recruits and customers', steps: ['Name a change in the world', 'Show winners and losers', 'Tease the promised state', 'Introduce capabilities as gifts past obstacles', 'Prove you can make it true'] },
+  { n: 'Pyramid Principle + SCQ', src: 'Barbara Minto (1985)', t: 18, use: 'Board papers, memos and any document read once', steps: ['One governing point at the top', 'Each level summarises the level below', 'Situation, Complication, Question', 'Answer the question first, then support', 'Order support by a logic you can name'] },
+  { n: 'Preferred sender model', src: 'Prosci', t: 18, use: 'Sequence a change announcement', steps: ['Business messages from the most senior leader', 'Personal-impact messages from the immediate supervisor', 'Never swap the senders', 'Brief supervisors before the senior announcement', 'Repeat both; one delivery is distribution, not communication'] },
+  { n: 'ADKAR', src: 'Jeff Hiatt / Prosci', t: 18, use: 'Diagnose where a group is stuck and who owns the fix', steps: ['Awareness', 'Desire', 'Knowledge', 'Ability', 'Reinforcement'] },
+  { n: 'Bridges Transition Model', src: 'William Bridges', t: 18, use: 'Behaviour has not moved after a correct announcement', steps: ['Separate change from transition', 'Endings — name what is lost and who loses it', 'Neutral Zone — frequent low-drama updates', 'New Beginnings — roles and reorientation'] },
+  { n: 'Power-interest grid', src: 'Mendelow (1981)', t: 18, use: 'Triage stakeholders for one specific decision', steps: ['Fix the unit of analysis on one issue', 'Score power on evidence, not seniority', 'Score interest in this decision specifically', 'Assign posture per quadrant with an owner and cadence', 'Write the trigger list that would move someone'] },
+  { n: 'Stakeholder salience', src: 'Mitchell, Agle & Wood (1997)', t: 18, use: 'Justify budget for a group with no formal standing', steps: ['Test power (coercive, utilitarian, normative)', 'Test legitimacy against prevailing norms', 'Test urgency (time-sensitivity plus criticality)', 'Classify latent, expectant or definitive', 'Map how a dependent stakeholder acquires an ally'] },
+  { n: 'IAP2 spectrum', src: 'International Association for Public Participation', t: 18, use: 'Be explicit about how much decision power you are giving away', steps: ['Choose the level before any tactic', 'Read across to the participation goal', 'Publish the promise you will be held to', 'Fence the parts of the decision that are closed', 'Report back against the promise'] },
+  { n: 'SCCT', src: 'W. Timothy Coombs', t: 18, use: 'Choose crisis response posture', steps: ['Publish instructing and adjusting information first', 'Cluster: victim, accidental, preventable', 'Score intensifiers: crisis history, prior reputation', 'Match deny / diminish / rebuild to attribution', 'Bolster only as a supplement', 'Re-classify as facts land'] },
+  { n: 'CERC principles', src: 'US CDC', t: 18, use: 'Audit any crisis draft in 60 seconds', steps: ['Be first', 'Be right — facts in increments', 'Be credible — do not withhold to avoid embarrassment', 'Express empathy', 'Promote action', 'Show respect'] },
+  { n: 'Apology components, ranked', src: 'Lewicki, Polin & Lount (2016)', t: 18, use: 'Construct an apology once you have decided to give one', steps: ['Acknowledgement of responsibility (strongest)', 'Offer of repair', 'Expression of regret', 'Explanation of what went wrong', 'Declaration of repentance', 'Request for forgiveness (weakest — cut this first)'] },
+  { n: 'Competence vs integrity repair', src: 'Kim, Ferrin, Cooper & Dirks (2004)', t: 18, use: 'Decide between apology and denial', steps: ['Classify the violation as competence- or integrity-based', 'Competence — apology repairs better', 'Integrity — denial repairs better', 'Check what evidence will surface later', 'Accept that misclassification is close to unrecoverable'] },
+  { n: 'Message triangle', src: 'Marketing Partners', t: 18, use: 'Prepare any spokesperson for any interview', steps: ['Establish context and objective', 'Maximum three key messages', 'Attach credible proof to each', 'Compress each into a sayable sound bite', 'Rehearse redirects on friendly and hostile sets'] },
+  { n: 'Attribution ladder', src: 'Associated Press news values', t: 18, use: 'Any conversation with a journalist that is not a formal interview', steps: ['On the record — usable and named', 'Background — publishable on negotiated terms', 'Deep background — usable, no attribution', 'Off the record — not publishable', 'Negotiate before speaking; it cannot be applied retroactively'] },
+  { n: 'AMEC Integrated Evaluation Framework', src: 'AMEC (Macnamara)', t: 18, use: 'Design or audit any comms measurement model', steps: ['Objectives from organisational objectives', 'Inputs', 'Activities', 'Outputs', 'Out-takes', 'Outcomes', 'Impact — then feed back into planning'] },
+  { n: 'Barcelona Principles V4.0', src: 'AMEC, June 2025', t: 18, use: 'The standard you audit against', steps: ['1 Clear measurable (SMARTER) objectives', '2 Define and understand all stakeholder audiences', '3 Measure all relevant channels', '4 Qualitative and quantitative analysis', '5 No invalid measures such as AVEs', '6 Report outputs, outcomes and impact', '7 Ethics, governance and transparency'] },
+  { n: 'Speak-or-stay-silent test', src: 'Practice, post-2024 polarisation research', t: 18, use: 'Decide whether the organisation should comment at all', steps: ['Standing — do we have a legitimate stake?', 'Consistency — does anything we said or did contradict this?', 'Constituency — who actually needs to hear it, and is the channel internal?', 'Commitment — what will we do, fund or change?', 'Cost of silence — who reads silence as an answer?'] },
   { n: 'Case study structure', src: 'Portfolio practice', t: 17, use: 'Prove judgement, not output', steps: ['Situation', 'Diagnosis (frameworks named)', 'Decision (and what you rejected)', 'Execution', 'Result with baseline', 'Learning'] },
   { n: 'First 90 days', src: 'Practice', t: 17, use: 'Start a senior role well', steps: ['Days 1–30 listen and inventory', 'Days 15–45 one visible early win', 'Days 30–60 diagnosis document', 'Days 60–90 install one durable system'] }
 ];
@@ -109,6 +127,80 @@ export const TEMPLATES = [
       { n: 'Outage update', v: '[NAME] — [WHAT IS AFFECTED] since [TIME + TIMEZONE]. Engineering is on it and the status page updates every [INTERVAL]: [LINK].\n\nFor your [SPECIFIC DEADLINE]: [WORKAROUND OR OFFER TO DO IT FOR THEM]. Want me to?\n\n— [YOU]' },
       { n: 'Cancellation confirmed', v: 'Hi [NAME] — cancelled. Nothing renews on [DATE], and your data stays available until [DATE] if you want to export or come back.\n\nIf you have twenty seconds: what tipped it? Useful to us either way, and if it\'s something fixable I\'d like to know.\n\n— [YOU]' },
       { n: 'Escalation notice to customer', v: 'Hi [NAME] — this needs [TEAM/PERSON], so I\'ve escalated it with everything you\'ve told me; you won\'t need to repeat any of it.\n\nI\'m staying on it — you\'ll hear from me, not a new queue, by [TIME]. If it moves faster than that I\'ll tell you sooner.\n\n— [YOU]' }
+    ]
+  },
+  {
+    cat: 'Communications documents', items: [
+      { n: 'Holding statement (first 15 minutes)', v: `We are aware of the situation regarding [ISSUE] and are looking into it immediately.
+We will provide an update by [SPECIFIC TIME + TIMEZONE] whether or not we have more to
+report. In the meantime our thoughts are with all those who are or may be affected.
+
+[IF SAFETY RELEVANT] If you are affected, [SPECIFIC ACTION TO TAKE / NOTHING TO DO YET].
+
+RULES FOR THIS DRAFT
+· No cause. No scope estimate. No "limited number". No "no evidence of misuse".
+· No admission of liability. Must not pre-empt or contradict a regulatory filing.
+· Timestamps must be verifiable. Next-update time must be specific.` },
+      { n: 'Incident statement (facts known, scope unknown)', v: `At approximately [TIME + TIMEZONE] on [DATE] we identified [WHAT, FACTUALLY].
+We [CONTAINMENT ACTION] at [TIME] and have engaged [EXTERNAL SPECIALISTS].
+
+What we do not yet know: [LIST THE UNKNOWNS PLAINLY].
+What we are doing: [STEPS, WITH OWNERS].
+What you need to do: [ACTION OR "nothing at this stage"].
+Next update: by [TIME], whether or not there is more to report.
+
+[NAME, ROLE — the operationally credible voice, not automatically the CEO]` },
+      { n: 'Comms objective (the form that survives review)', v: `By [DATE], [DIRECTION] [MEASURE] among [AUDIENCE, DEFINED]
+from [BASELINE FIGURE, recorded by INSTRUMENT on DATE] to [TARGET],
+measured on [SAME INSTRUMENT, IDENTICAL WORDING], with [INTERIM CHECKPOINT] as the
+mid-point review.
+
+Business objective this ladders to: [NAMED, from the plan — not invented for this doc]
+Barcelona V4.0 check: Specific · Measurable · Achievable · Relevant · Time-bound ·
+Evaluated (during, not only at the end) · Reviewed (can adapt)` },
+      { n: 'Message triangle brief', v: `TOPIC:                          SPOKESPERSON:               DATE:
+OBJECTIVE (what must change in the audience's head):
+AUDIENCE + what they already know:
+
+MESSAGE 1:                      PROOF (number / named example / first-hand):
+MESSAGE 2:                      PROOF:
+MESSAGE 3:                      PROOF:
+
+THREE HOSTILE QUESTIONS (at least one with a TRUE premise) + the acknowledgement that
+must come before any bridge:
+CANNOT DISCUSS + why, and what I can give instead (never "no comment"):
+DO NOT SAY:` },
+      { n: 'Embargo opt-in note', v: `Before I send anything: we have [WHAT] going out at [TIME + TIMEZONE] on [DAY, DATE],
+and I would like to give it to you on [DAY] under embargo until then.
+
+Do you want it on that basis? If you would rather not be bound, say so and I will send it
+[LAUNCH DAY] with everyone else, no hard feelings.
+
+[Never send the material before they accept. An embargo binds only those who agreed.]` },
+      { n: 'Change announcement + manager pack', v: `ANNOUNCEMENT (senior leader — business messages only)
+What is changing:                          Scale, in numbers:
+Why now, and the risk of not changing:
+When uncertainty ends (specific time):
+Who hears what, from whom, by when:
+
+MANAGER PACK (supervisor — personal impact)
+Three things to say in your own words:
+Three questions you will be asked, with answers you can repeat twice:
+  Q: Are more cuts coming? A: [only what the manager controls + a commitment to tell them]
+One thing not to say, and why:
+Conversation must have happened by: [DATE + TIME]  ·  Verify from the team side, not the tracker` },
+      { n: 'Crisis plan spine (STOP)', v: `STRATEGY   objectives · audiences and impacts · guiding principles · thresholds
+TACTICS    pre-cleared holding lines · clearance requirements · contacts · dark site
+ORGANISATION  named comms lead · war-room structure · policy alignment · logistics
+PEOPLE     staffing and surge · training · responder wellbeing
+
+CLOCKS (verify current, per jurisdiction)
+  GDPR Art.33   supervisory authority, without undue delay, ≤72h from awareness
+  NIS2 Art.23   early warning ≤24h · notification ≤72h · final report ≤1 month
+  SEC 8-K 1.05  4 business days from the MATERIALITY DETERMINATION (not discovery)
+
+APPROVAL PATH  who clears a 15-minute statement, in hours and out of hours, by name
+SPOKESPERSON BENCH  topic → primary → deputy → last trained → last live interview` }
     ]
   },
   {
@@ -206,6 +298,12 @@ export const INTERVIEW = [
   { role: 'Customer service', q: 'A customer becomes abusive. What do you do?', a: 'Anger is acceptable, abuse is not. One calm explicit warning naming the behaviour and the consequence; if it continues, end the contact and document verbatim and factually. Report it the same day. Know the policy in advance rather than improvising authority mid-conversation.' },
   { role: 'Support lead / CX', q: 'Which metrics would you report, and which would you refuse to?', a: 'CES with FCR as the honest pair, contact rate per 100 customers as the strategic metric, SLA attainment as a percentage rather than an average. Refuse AHT as a standalone target — it produces fast useless service. Explain the gaming risk for each metric you name.' },
   { role: 'Support lead / CX', q: 'How does support make the rest of the company better?', a: 'The root-cause loop: consistent tagging, monthly ranking by volume × handle time × sentiment, an owner per driver, and a report costed in agent-hours. Then route objections into the objection library, verbatim pain into the message bank, and recurring confusion into onboarding copy.' },
+  { role: 'Communications', q: 'A story breaks alleging misconduct by a senior executive. Walk me through your first hour.', a: 'Verify what is actually known; classify the SCCT cluster and whether the trust violation is competence- or integrity-based, because that dictates apology versus denial; publish a holding statement that timestamps awareness, expresses concern and commits to a specific next update, with no cause and no reassurance; brief employees before or with the external release; check statutory clocks; and choose an operationally credible spokesperson rather than defaulting to the CEO.' },
+  { role: 'Communications', q: 'Our CEO wants to comment on a political issue. What do you advise?', a: 'Run the five-part test out loud: standing, consistency with what we have already said and done, which constituency actually needs to hear it, what we are prepared to do or fund, and the cost of silence. Then bring a recommendation either way with reasons. Cite that a large share of in-house communicators now regard silence as sometimes the most effective strategy, and that inconsistency is what becomes the story.' },
+  { role: 'Communications', q: 'How would you measure our comms programme?', a: 'Name the standard: AMEC Integrated Evaluation Framework with Barcelona Principles V4.0 (June 2025), SMARTER objectives, no AVEs or aliases like EMV. Then one measure per stage, definitions and qualifying rules stated, sentiment reported with method and measured agreement, one attribution claim with a counterfactual, and the stages where we have no data presented as next quarter\'s budget request.' },
+  { role: 'Communications', q: 'Sales and marketing want the launch narrative to lead with the product. You disagree. What do you do?', a: 'Separate the artefacts: the corporate narrative sets the frame (the change in the world and the stakes), the messaging house gives sales quotable proof, and product marketing owns the buyer-facing story. Show that a narrative which cannot name the shift without naming the product does not travel to investors, recruits or regulators. Then give them what they actually need — pillars with proof — rather than winning an argument about the keynote.' },
+  { role: 'Communications', q: 'How do you get managers to communicate well during a change?', a: 'Preferred sender model: senior leader takes the business messages, the immediate supervisor takes personal impact, and supervisors get briefed before the announcement, not after. Give them a pack with three must-says, three survivable answers and one thing not to say, then verify the conversation happened from the team side rather than from the manager tracker.' },
+  { role: 'Communications', q: 'A regulator has asked for information and we found an error in our own reporting. How do you handle the comms?', a: 'Lead with corrected primary data, a dated and specific admission, a remediation plan with owners, and narrow disagreements framed so they can be adjudicated. Delete every sentence that only signals cooperation. Regulators read for admissibility and for the cost of defending a decision to their own oversight, so cooperation is demonstrated by what you hand over.' },
   { role: 'Any senior role', q: 'What would you stop doing in our current marketing?', a: 'The single strongest seniority signal. Come with one specific, respectful, reasoned observation about their actual work, and what you would do with the freed capacity.' },
   { role: 'Any senior role', q: 'Tell me about a time you were wrong.', a: 'Pick a real one with a mechanism: what you believed, what evidence changed it, what it cost, what you changed in your process afterwards. Process change is what makes the answer land.' },
   { role: 'Any senior role', q: 'How do you prioritise when everything is urgent?', a: 'Size in money or risk, not in volume of requests. Show a real ranking you made, the thing you deliberately let slip, and how you communicated that trade-off upward.' },

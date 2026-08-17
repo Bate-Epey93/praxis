@@ -1,23 +1,31 @@
 // Praxis service worker — offline-first for a fully static app.
-const VERSION = 'praxis-v2';
+// Bump VERSION and js/version.js together when shipping.
+const VERSION = 'praxis-69fadfdc7a';
 const BASE = self.registration.scope;
 
 const ASSETS = [
   '', 'index.html', 'manifest.webmanifest',
   'css/app.css',
-  'js/app.js', 'js/store.js', 'js/render.js', 'js/quiz.js', 'js/tools.js', 'js/progress.js', 'js/pwa.js',
+  'js/app.js', 'js/store.js', 'js/render.js', 'js/quiz.js', 'js/tools.js', 'js/progress.js',
+  'js/pwa.js', 'js/toast.js', 'js/version.js',
   'data/index.js', 'data/t-foundations.js', 'data/t-positioning.js', 'data/t-conversion.js',
-  'data/t-systems.js', 'data/t-strategy.js', 'data/t-service.js',
+  'data/t-systems.js', 'data/t-strategy.js', 'data/t-comms.js', 'data/t-service.js',
   'data/quiz.js', 'data/glossary.js', 'data/library.js', 'data/brush.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png'
 ].map(p => new URL(p, BASE).toString());
 
 self.addEventListener('install', e => {
-  e.waitUntil((async () => {
-    const cache = await caches.open(VERSION);
-    await Promise.allSettled(ASSETS.map(u => cache.add(new Request(u, { cache: 'reload' }))));
-    self.skipWaiting();
-  })());
+  // No skipWaiting here on purpose: a new build waits until the reader taps
+  // "Update now" in the in-app toast, so a page is never swapped mid-sentence.
+  e.waitUntil(caches.open(VERSION).then(cache =>
+    Promise.allSettled(ASSETS.map(u => cache.add(new Request(u, { cache: 'reload' }))))
+  ));
+});
+
+self.addEventListener('message', e => {
+  const data = e.data || {};
+  if (data.type === 'SKIP_WAITING') self.skipWaiting();
+  if (data.type === 'GET_VERSION') e.source?.postMessage({ type: 'VERSION', version: VERSION });
 });
 
 self.addEventListener('activate', e => {

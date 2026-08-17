@@ -3,6 +3,9 @@ import { store } from './store.js';
 import { esc, md } from './render.js';
 import { brushRule } from '../data/brush.js';
 import { trackPct, overallPct, artifactPct } from './progress.js';
+import { checkForUpdate } from './pwa.js';
+import { APP_VERSION } from './version.js';
+import { toast } from './toast.js';
 
 const num = v => { const n = parseFloat(String(v).replace(/[, %$]/g, '')); return isFinite(n) ? n : 0; };
 const money = n => '$' + Math.round(n).toLocaleString();
@@ -386,6 +389,17 @@ export function progressView(el) {
       }).join('')}</tbody>
     </table></div>
 
+    <div class="b-h">App version</div>
+    <div class="card card-2">
+      <div class="out-row"><span class="k">Running</span><span class="v">${esc(APP_VERSION)}</span></div>
+      <div class="out-row"><span class="k">Offline</span><span class="v">${navigator.onLine ? 'online' : 'offline — cached copy'}</span></div>
+      <div class="out-row"><span class="k">Installed</span><span class="v">${window.matchMedia('(display-mode: standalone)').matches || navigator.standalone ? 'home screen' : 'browser tab'}</span></div>
+      <div class="row" style="margin-top:11px">
+        <button class="btn sec" data-x="update">Check for updates</button>
+        <span class="dim" style="font-size:12.2px">An update prompt appears automatically when a new build is live.</span>
+      </div>
+    </div>
+
     <div class="b-h">Your data</div>
     <p class="muted" style="font-size:13.6px">Everything lives in this browser's local storage. Nothing is uploaded anywhere. Export before clearing browser data or switching device.</p>
     <div class="row" style="gap:8px;margin:10px 0 18px">
@@ -401,6 +415,7 @@ export function progressView(el) {
       : `<div class="empty">No notes yet. Notes live under each section.</div>`}
   </div>`;
 
+  el.querySelector('[data-x="update"]').onclick = () => checkForUpdate({ announce: true });
   el.querySelector('[data-x="notes"]').onclick = () => download('praxis-notes.md', notesMarkdown(), 'text/markdown');
   el.querySelector('[data-x="json"]').onclick = () => download('praxis-data.json', store.exportAll(), 'application/json');
   el.querySelector('[data-x="reset"]').onclick = () => {
