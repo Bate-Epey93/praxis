@@ -445,3 +445,65 @@ textarea.note:focus{outline:none;border-color:color-mix(in srgb,var(--am) 55%,tr
   .toast-x{order:0;margin-left:auto}
   .toast-btn{order:2;flex:1 1 auto}
 }
+
+/* ══════════ practice engine, builder, plans ══════════ */
+
+/* rows that behave like list items with a target on the right */
+.build-row{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center}
+.build-row:hover{text-decoration:none}
+
+/* artefact builder */
+.build-status{position:sticky;top:calc(var(--topbar-h,58px) + 6px);z-index:5}
+.build-step{margin:18px 0 6px}
+.build-head{align-items:flex-start;gap:10px;margin-bottom:6px}
+.build-title{display:flex;gap:9px;align-items:flex-start;min-width:0;font-size:14.4px;line-height:1.45}
+.build-n{font-family:var(--mono);font-size:10px;color:var(--am);padding-top:3px;flex:0 0 auto}
+.build-wc{font-size:10px;flex:0 0 auto;padding-top:3px}
+.build-guide{margin-bottom:7px;background:transparent}
+.build-guide > summary{padding:7px 12px;font-size:12.5px;font-weight:500;color:var(--tx-2)}
+.build-guide .body{font-size:13px;padding-top:9px}
+textarea.build-area{min-height:130px;font-size:14.6px}
+
+/* timers */
+.timer-bar{display:flex;align-items:center;gap:9px;padding:11px 15px;margin-bottom:12px;border-radius:var(--r);
+  background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(var(--blur)) saturate(160%);
+  position:sticky;top:calc(var(--topbar-h,58px) + 6px);z-index:6;box-shadow:var(--shadow-sm)}
+.timer-num{font-size:21px;font-weight:700;color:var(--am);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.timer-bar.over{border-color:var(--rs);background:color-mix(in srgb,var(--rs) 12%,var(--glass))}
+.timer-bar.over .timer-num{color:var(--rs)}
+textarea.drill-area,textarea.sim-area{min-height:46vh;font-size:15px;line-height:1.62}
+.drill-answer{white-space:pre-wrap;font-family:var(--serif);font-size:14.4px;line-height:1.6;margin-top:8px;
+  padding:11px 13px;border-radius:8px;background:var(--bg-2);border:1px solid var(--line);max-height:340px;overflow:auto}
+
+/* rubric self-scoring */
+.score-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.score-btn{padding:8px 4px;border-radius:8px;border:1px solid var(--line);background:var(--card-2);
+  font-size:11.5px;color:var(--tx-2);text-align:center;transition:all .15s}
+.score-btn:hover{border-color:var(--line-2)}
+.score-btn[aria-pressed="true"]{background:color-mix(in srgb,var(--am) 20%,transparent);
+  border-color:var(--am);color:var(--tx);font-weight:600}
+
+/* plan checklist */
+.plan-row{display:flex;align-items:stretch;gap:7px;margin-bottom:6px}
+.plan-row.done .plan-label{text-decoration:line-through;opacity:.55}
+.plan-check{width:42px;flex:0 0 42px;margin:0;justify-content:center;padding:0}
+.plan-link{flex:1;min-width:0;display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:center;
+  padding:10px 13px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);color:var(--tx)}
+.plan-link:hover{text-decoration:none;border-color:var(--line-2)}
+.plan-kind{font-size:12px;color:var(--am);text-align:center}
+.plan-label{font-weight:600;font-size:13.6px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* today */
+.today-card{display:flex;gap:12px;align-items:center}
+.today-icon{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--am) 16%,transparent);color:var(--am);font-size:15px}
+.today-cta{font-size:10.5px;color:var(--tx-3);flex:0 0 auto}
+
+/* jd mapper */
+textarea.jd-area{min-height:200px;font-family:var(--sans);font-size:13.6px;line-height:1.55}
+
+@media (max-width:520px){
+  .plan-check{width:38px;flex:0 0 38px}
+  .score-row{grid-template-columns:repeat(2,1fr)}
+  textarea.drill-area,textarea.sim-area{min-height:40vh}
+}

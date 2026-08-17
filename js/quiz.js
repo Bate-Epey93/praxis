@@ -36,6 +36,11 @@ function runQuiz(el, questions, meta) {
       if (answered) return;
       answered = true; picked = +b.dataset.o;
       if (picked === q.a) score++;
+      else if (q.t != null) {
+        // Log the miss so it resurfaces in the weak-spot review.
+        const idx = QUIZ.filter(x => x.t === q.t).indexOf(q);
+        if (idx >= 0) store.missQuestion(`${q.t}:${idx}`);
+      }
       el.querySelectorAll('[data-o]').forEach(x => {
         const k = +x.dataset.o;
         if (k === q.a) x.classList.add('right');

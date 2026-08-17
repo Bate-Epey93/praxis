@@ -1,4 +1,5 @@
 import { TRACKS, FRAMEWORKS, TEMPLATES, INTERVIEW, GLOSSARY, QUIZ, trackById } from '../data/index.js';
+import { SIMS } from '../data/practice.js';
 import { store } from './store.js';
 import { esc, md } from './render.js';
 import { brushRule } from '../data/brush.js';
@@ -298,27 +299,125 @@ export function templatesView(el) {
 export function interviewView(el) {
   const roles = [...new Set(INTERVIEW.map(i => i.role))];
   let sel = 'all';
+
   function draw() {
     const hits = INTERVIEW.filter(i => sel === 'all' || i.role === sel);
+    const shaky = INTERVIEW.filter((_, i) => store.card('iv:' + i).box === 1 && store.card('iv:' + i).seen > 0).length;
     el.innerHTML = `<div class="wrap">
       <div class="eyebrow">Workbench</div>
       <h1 class="h-xl">Interview bank</h1>
-      ${brushRule(1)}
-      <p class="lede">${INTERVIEW.length} questions with answer scaffolds. Rehearse out loud and under 90 seconds — reading them silently builds recognition, not recall.</p>
+      ${brushRule(0)}
+      <p class="lede">${INTERVIEW.length} questions with answer scaffolds. Reading them silently builds recognition.
+        Rehearsal mode gives you 90 seconds and no notes, which is the actual test.</p>
+
+      <div class="card" style="border-color:var(--am)">
+        <div class="between">
+          <div>
+            <span class="eyebrow" style="margin:0;color:var(--am)">Rehearsal</span>
+            <div style="font-weight:600">Answer out loud, 90 seconds, standing up</div>
+            <div class="dim" style="font-size:12.3px">${shaky ? shaky + ' marked shaky · they come back first' : 'Nothing marked shaky yet'}</div>
+          </div>
+          <button class="btn" data-rehearse>Start</button>
+        </div>
+      </div>
+
       <div class="chips">
         <button class="chip" data-r="all" aria-pressed="${sel === 'all'}">All roles</button>
         ${roles.map(r => `<button class="chip" data-r="${esc(r)}" aria-pressed="${sel === r}">${esc(r)}</button>`).join('')}
       </div>
-      ${hits.map(i => `<details class="disc">
-        <summary>☰ ${esc(i.q)}</summary>
-        <div class="body">
-          <span class="tag" style="margin-bottom:8px;display:inline-block">${esc(i.role)}</span>
-          <p style="margin:0"><strong>Scaffold:</strong> ${md(i.a)}</p>
-        </div>
-      </details>`).join('')}
+      ${hits.map(i => {
+        const idx = INTERVIEW.indexOf(i);
+        const c = store.card('iv:' + idx);
+        return `<details class="disc"><summary>☰ ${esc(i.q)}</summary>
+          <div class="body">
+            <div class="row" style="margin-bottom:8px">
+              <span class="tag">${esc(i.role)}</span>
+              ${c.seen ? `<span class="tag" style="color:var(${c.box > 2 ? '--gr' : '--rs'});border-color:var(${c.box > 2 ? '--gr' : '--rs'})">${c.box > 2 ? 'solid' : 'shaky'}</span>` : ''}
+            </div>
+            <p style="margin:0"><strong>Scaffold:</strong> ${md(i.a)}</p>
+          </div>
+        </details>`;
+      }).join('')}
     </div>`;
     el.querySelectorAll('[data-r]').forEach(b => b.onclick = () => { sel = b.dataset.r; draw(); });
+    el.querySelector('[data-rehearse]').onclick = () => rehearse(sel);
   }
+
+  /* 90 seconds, no notes, then an honest verdict */
+  function rehearse(roleFilter) {
+    const pool = INTERVIEW.map((q, i) => ({ q, i }))
+      .filter(x => roleFilter === 'all' || x.q.role === roleFilter)
+      .sort((a, b) => {
+        const ca = store.card('iv:' + a.i), cb = store.card('iv:' + b.i);
+        return (ca.box - cb.box) || (ca.due - cb.due) || (Math.random() - 0.5);
+      });
+    if (!pool.length) return;
+
+    let n = 0, left = 90, phase = 'ask', timer = null;
+    const stop = () => { clearInterval(timer); timer = null; };
+
+    function paint() {
+      stop();
+      const { q, i } = pool[n % pool.length];
+      if (phase === 'ask') {
+        el.innerHTML = `<div class="wrap">
+          <div class="between">
+            <div><div class="eyebrow">Rehearsal · out loud</div><h1 class="h-lg">Answer this</h1></div>
+            <span class="mono dim" style="font-size:12px">${n + 1} of ${pool.length}</span>
+          </div>
+          ${brushRule(2)}
+          <div class="timer-bar" data-timer><span class="mono timer-num">1:30</span>
+            <span class="dim" style="font-size:12px">no notes, no scrolling</span></div>
+          <div class="card" style="min-height:180px;display:grid;place-items:center;text-align:center">
+            <div>
+              <div style="font-family:var(--serif);font-size:20px;line-height:1.35">${esc(q.q)}</div>
+              <div class="dim" style="font-size:12px;margin-top:12px">${esc(q.role)}</div>
+            </div>
+          </div>
+          <div class="pager">
+            <button class="btn sec" data-quit>Stop</button>
+            <button class="btn" data-reveal>I answered it →</button>
+          </div>
+        </div>`;
+        const num = el.querySelector('.timer-num');
+        const bar = el.querySelector('[data-timer]');
+        timer = setInterval(() => {
+          left--;
+          num.textContent = `${Math.floor(Math.abs(left) / 60)}:${String(Math.abs(left) % 60).padStart(2, '0')}`;
+          if (left <= 0) { bar.classList.add('over'); num.textContent = 'over'; }
+        }, 1000);
+        el.querySelector('[data-reveal]').onclick = () => { phase = 'grade'; paint(); };
+        el.querySelector('[data-quit]').onclick = () => { stop(); draw(); };
+      } else {
+        el.innerHTML = `<div class="wrap">
+          <div class="eyebrow">Rehearsal · compare</div>
+          <h1 class="h-lg">${esc(q.q)}</h1>
+          ${brushRule(1)}
+          <div class="card"><strong>Scaffold:</strong> ${md(q.a)}</div>
+          <div class="card card-2">
+            <div class="eyebrow">Honest verdict</div>
+            <p class="dim" style="font-size:12.6px;margin:0 0 10px">Did you actually say the substance out loud, inside the time,
+              without reading? Shaky answers come back first next time.</p>
+            <div class="row" style="gap:8px">
+              <button class="btn sec" data-g="0" style="flex:1;color:var(--rs)">Shaky</button>
+              <button class="btn" data-g="1" style="flex:1">Nailed it</button>
+            </div>
+          </div>
+          <div class="pager"><button class="btn sec" data-quit>Finish</button></div>
+        </div>`;
+        el.querySelectorAll('[data-g]').forEach(b => b.onclick = () => {
+          store.gradeCard('iv:' + i, b.dataset.g === '1');
+          store.touchStreak();
+          n++; left = 90; phase = 'ask';
+          if (n >= pool.length) { toast({ msg: 'Rehearsal complete.', icon: '✓', timeout: 2400 }); return draw(); }
+          paint();
+        });
+        el.querySelector('[data-quit]').onclick = () => { stop(); draw(); };
+      }
+    }
+    paint();
+  }
+
   draw();
 }
 
@@ -347,6 +446,9 @@ export function glossaryView(el) {
   draw();
 }
 
+const portfolioWords = () => TRACKS.reduce((a, t) => a + store.workWords(t.id), 0);
+const finishedArtefacts = () => TRACKS.filter(t => t.artifact.steps.every((_, i) => store.hasWork(t.id, i))).length;
+
 /* ═══════════ progress & notes ═══════════ */
 export function progressView(el) {
   const notes = store.all.notes;
@@ -367,9 +469,23 @@ export function progressView(el) {
       <div class="bar"><i style="width:${overallPct()}%"></i></div>
       <div class="row dim" style="margin-top:9px;font-size:11.5px;font-family:var(--mono)">
         <span>${store.all.streak.count || 0}-day streak</span><span>·</span>
+        <span>${store.activeDays(30)} active days in 30</span><span>·</span>
         <span>${noteKeys.length} notes</span><span>·</span>
         <span>${cardsSeen}/${GLOSSARY.length} cards seen</span><span>·</span>
         <span>${quizzed.length}/${TRACKS.length} quizzes taken</span>
+      </div>
+    </div>
+
+    <div class="b-h">Work produced</div>
+    <div class="card card-2">
+      <div class="out-row"><span class="k">Artefact words written</span><span class="v">${portfolioWords().toLocaleString()}</span></div>
+      <div class="out-row"><span class="k">Artefacts finished</span><span class="v">${finishedArtefacts()}/${TRACKS.length}</span></div>
+      <div class="out-row"><span class="k">Timed drill runs</span><span class="v">${store.drillCount}</span></div>
+      <div class="out-row"><span class="k">Simulations submitted</span><span class="v">${SIMS.filter(s => store.sim(s.id)?.submitted).length}/${SIMS.length}</span></div>
+      <div class="out-row"><span class="k">Weak spots outstanding</span><span class="v">${store.missedKeys.length}</span></div>
+      <div class="row" style="gap:6px;margin-top:10px">
+        <a class="chip" href="#/portfolio">Portfolio</a><a class="chip" href="#/practice">Practice</a>
+        ${store.missedKeys.length ? '<a class="chip" href="#/weak">Weak spots</a>' : ''}
       </div>
     </div>
 
@@ -401,7 +517,12 @@ export function progressView(el) {
     </div>
 
     <div class="b-h">Your data</div>
-    <p class="muted" style="font-size:13.6px">Everything lives in this browser's local storage. Nothing is uploaded anywhere. Export before clearing browser data or switching device.</p>
+    <p class="muted" style="font-size:13.6px">Everything lives in this browser's local storage. Nothing is uploaded anywhere.
+      A browser can evict local storage without warning, so export whenever you have written something you would hate to lose.</p>
+    <div class="card card-2" style="margin-bottom:10px">
+      <div class="out-row"><span class="k">Last backup</span><span class="v">${lastBackupLabel()}</span></div>
+      <div class="out-row"><span class="k">Stored on this device</span><span class="v">${(store.bytesUsed() / 1024).toFixed(0)} KB</span></div>
+    </div>
     <div class="row" style="gap:8px;margin:10px 0 18px">
       <button class="btn" data-x="notes">Export notes (.md)</button>
       <button class="btn sec" data-x="json">Export all data (.json)</button>
@@ -417,7 +538,11 @@ export function progressView(el) {
 
   el.querySelector('[data-x="update"]').onclick = () => checkForUpdate({ announce: true });
   el.querySelector('[data-x="notes"]').onclick = () => download('praxis-notes.md', notesMarkdown(), 'text/markdown');
-  el.querySelector('[data-x="json"]').onclick = () => download('praxis-data.json', store.exportAll(), 'application/json');
+  el.querySelector('[data-x="json"]').onclick = () => {
+    download(`praxis-backup-${new Date().toISOString().slice(0, 10)}.json`, store.exportAll(), 'application/json');
+    store.pref('lastBackup', Date.now());
+    progressView(el);
+  };
   el.querySelector('[data-x="reset"]').onclick = () => {
     if (confirm('Delete all notes, progress, quiz scores and flashcard history on this device? This cannot be undone.')) {
       store.reset(); location.hash = '#/'; location.reload();
@@ -428,6 +553,13 @@ export function progressView(el) {
     try { store.importAll(await f.text()); alert('Imported.'); location.reload(); }
     catch { alert('That file could not be read as Praxis data.'); }
   };
+}
+
+function lastBackupLabel() {
+  const t = store.pref('lastBackup') || 0;
+  if (!t) return 'never';
+  const d = Math.floor((Date.now() - t) / 864e5);
+  return d === 0 ? 'today' : d === 1 ? 'yesterday' : `${d} days ago`;
 }
 
 function labelForNote(k) {

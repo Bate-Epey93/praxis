@@ -2,6 +2,9 @@
 
 An offline-first PWA for intermediate → senior practice across **copywriting, content strategy, CRO, go-to-market, strategic communications, and customer service**.
 
+It is a practice environment, not a reader. You pick the role you are applying for, it builds the plan, you write
+under a clock against real rubrics, and the artefacts you produce export as documents you can send to a hiring manager.
+
 Live: **https://bate-epey93.github.io/praxis/**
 
 Built as a merge and large expansion of two earlier study apps (a Puffy CRO interview-prep app and the GTM Writer's OS), rebuilt as one dependency-free progressive web app.
@@ -37,6 +40,19 @@ Track 09 includes a dedicated **Writing for SEO and AEO** section built from Goo
 
 Track 18 (**Strategic Communications**) covers corporate and executive narrative with investor-disclosure guardrails, internal comms and change, stakeholders and reputation, crisis and issues management, media relations and spokesperson craft, measurement against AMEC and Barcelona Principles V4.0, and comms operations including AI disclosure and synthetic-media response.
 
+## The practice engine
+
+| Surface | What it does |
+|---|---|
+| **Today** | Assembles the day: the next thing in your plan, one timed drill, cards due, weak spots, the artefact in progress, and one interview question to answer out loud. |
+| **Prep paths** | Nine role families (copywriter, content strategist, content SEO, PMM, lifecycle, CRO, support specialist, support lead, communications) × three time budgets. Generates an ordered, checkable plan: what to read, write, rehearse. |
+| **Practice** | Timed writing drills and full take-home simulations. Simulations ship with a company, a scenario, materials to reason from, a deliverable, a countdown, and a weighted rubric you score yourself against. |
+| **Portfolio** | Every artefact has a workspace. Write it in the app, export it as Markdown or as a clean printable document. |
+| **JD mapper** | Paste a job advert. It matches the language against a competency taxonomy, shows coverage from what you have actually studied and built, and splits requirements into can-evidence / thin / genuine gaps. |
+| **Readiness** | A weighted score per role family, biased toward things a hiring manager can see: must-know sections, finished artefacts, simulations completed. |
+| **Weak spots** | Questions you answered wrongly resurface until you get them right. |
+| **Rehearsal** | Interview questions on a 90-second clock, no notes, self-graded. Shaky answers come back first. |
+
 **Workbench tools**
 
 - Framework index — 50+ frameworks with steps and the situation each is for
@@ -45,9 +61,9 @@ Track 18 (**Strategic Communications**) covers corporate and executive narrative
 - Calculators — conversion/RPV, A/B sample size, funnel model, unit economics, content ROI, support capacity
 - Flashcards — Leitner-box spaced repetition over the full glossary
 - Mixed exam — 25 random questions under interview conditions
-- Interview bank — role-targeted questions with answer scaffolds
+- Interview bank — role-targeted questions with answer scaffolds, plus timed out-loud rehearsal
 - Glossary — 200+ terms
-- Progress & notes — per-track progress, notes export to Markdown, full data export/import, and a manual update check
+- Progress & notes — per-track progress, work produced (words written, artefacts finished, drill runs, simulations), notes and portfolio export, full data export/import, backup age, and a manual update check
 - Update toast — a new build prompts on device with **Update now / Later**, checked on resume, on reconnect and on a background interval
 
 ## Design
@@ -60,7 +76,9 @@ Track 18 (**Strategic Communications**) covers corporate and executive narrative
 
 - No build step, no dependencies, no framework. ES modules, plain DOM.
 - No network calls at runtime: system font stack, no CDN, no analytics, no tracking.
-- All state (notes, progress, quiz scores, flashcard boxes) is in `localStorage` on the device. Export from **Progress & notes**.
+- All state (notes, written artefacts, drill runs, simulation submissions, plans, quiz scores, flashcard boxes) is in `localStorage` on the device. Export from **Progress & notes**.
+- **Data safety**: a browser can evict local storage without warning. The app nudges for a backup once there is real work in it, surfaces the last backup date, and catches quota errors rather than failing silently.
+- On `localhost` the service worker serves network-first, so development does not fight yesterday's cache. Production stays cache-first.
 - Service worker precaches everything, so it works fully offline once opened. Installable on iOS, Android and desktop.
 - **Updates are user-controlled.** The service worker does not call `skipWaiting()` on install; a new build waits until the reader taps **Update now** in the in-app toast, so a page is never swapped mid-sentence. `js/pwa.js` re-checks on visibility change, on reconnect and every 20 minutes, which is what makes the prompt appear on a phone that never fully closes the app.
 - **Run `node tools/stamp-version.mjs` before every commit.** A browser only re-installs a service worker when `sw.js` itself changes, so the script hashes every precached file into `VERSION` (and `js/version.js`). Without it, content-only edits would leave installed devices serving the old cached build with no update prompt.

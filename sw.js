@@ -1,16 +1,21 @@
 // Praxis service worker — offline-first for a fully static app.
 // Bump VERSION and js/version.js together when shipping.
-const VERSION = 'praxis-69fadfdc7a';
+const VERSION = 'praxis-960d5f2f53';
 const BASE = self.registration.scope;
+// On localhost, always prefer the network: cache-first makes local development
+// serve yesterday's bundle and turns every change into a debugging session.
+const DEV = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(self.location.hostname);
 
 const ASSETS = [
   '', 'index.html', 'manifest.webmanifest',
   'css/app.css',
   'js/app.js', 'js/store.js', 'js/render.js', 'js/quiz.js', 'js/tools.js', 'js/progress.js',
   'js/pwa.js', 'js/toast.js', 'js/version.js',
+  'js/build.js', 'js/practice.js', 'js/paths.js', 'js/jd.js',
   'data/index.js', 'data/t-foundations.js', 'data/t-positioning.js', 'data/t-conversion.js',
   'data/t-systems.js', 'data/t-strategy.js', 'data/t-comms.js', 'data/t-service.js',
   'data/quiz.js', 'data/glossary.js', 'data/library.js', 'data/brush.js',
+  'data/paths.js', 'data/practice.js', 'data/practice-gen.js', 'data/taxonomy.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png'
 ].map(p => new URL(p, BASE).toString());
 
@@ -57,6 +62,10 @@ self.addEventListener('fetch', e => {
 
   // Everything else: cache first, revalidate in the background.
   e.respondWith((async () => {
+    if (DEV) {
+      try { return await fetch(req, { cache: 'no-store' }); }
+      catch { return (await caches.match(req)) || Response.error(); }
+    }
     const cached = await caches.match(req);
     if (cached) {
       fetch(req).then(r => { if (r.ok) caches.open(VERSION).then(c => c.put(req, r)); }).catch(() => {});

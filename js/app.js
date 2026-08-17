@@ -3,6 +3,13 @@ import { store } from './store.js';
 import { renderBlocks, blocksText, esc, md } from './render.js';
 import { quizView, examView, cardsView } from './quiz.js';
 import { calcView, frameworksView, promptsView, templatesView, interviewView, glossaryView, progressView } from './tools.js';
+import { builderView, portfolioView, download } from './build.js';
+import { practiceView, drillView, simView, stopTimers } from './practice.js';
+import { pathsView, planView, todayView, readinessView, weakView } from './paths.js';
+import { jdView } from './jd.js';
+import { DRILLS, SIMS } from '../data/practice.js';
+import { PATHS } from '../data/paths.js';
+import { COMPETENCIES } from '../data/taxonomy.js';
 import { trackPct, overallPct } from './progress.js';
 import { ensoMark, brushRule, brushDot, brushCheck, brushFlourish } from '../data/brush.js';
 import { initPWA } from './pwa.js';
@@ -13,8 +20,16 @@ const nav = document.getElementById('sidenavInner');
 document.getElementById('brandMark').innerHTML = ensoMark();
 
 /* ─────────── sidebar ─────────── */
+const DO = [
+  ['#/today', '◐', 'Today'],
+  ['#/paths', '◈', 'Prep paths'],
+  ['#/practice', '✎', 'Practice & simulations'],
+  ['#/portfolio', '❖', 'Portfolio'],
+  ['#/jd', '⌖', 'Job description mapper'],
+  ['#/readiness', '◑', 'Readiness']
+];
 const TOOLS = [
-  ['#/', '◆', 'Dashboard'],
+  ['#/', '◆', 'All tracks'],
   ['#/frameworks', '⬡', 'Framework index'],
   ['#/templates', '❐', 'Swipe & templates'],
   ['#/prompts', '⚙', 'Prompt library'],
@@ -23,15 +38,18 @@ const TOOLS = [
   ['#/exam', '★', 'Mixed exam'],
   ['#/interview', '☰', 'Interview bank'],
   ['#/glossary', 'A', 'Glossary'],
-  ['#/progress', '◑', 'Progress & notes']
+  ['#/progress', '◷', 'Progress & notes']
 ];
 
 function buildNav() {
   const hash = location.hash || '#/';
-  let html = `<div class="nav-group"><div class="nav-label">Workbench</div>` +
-    TOOLS.map(([h, ic, label]) =>
-      `<a class="nav-item" href="${h}"${hash === h ? ' aria-current="page"' : ''}><span class="n">${ic}</span>${label}</a>`
-    ).join('') + `</div>`;
+  const item = ([h, ic, label]) =>
+    `<a class="nav-item" href="${h}"${hash === h ? ' aria-current="page"' : ''}><span class="n">${ic}</span>${label}</a>`;
+
+  let html = `<div class="nav-group"><div class="nav-label">Do the work</div>` +
+    DO.map(item).join('') + `</div>` +
+    `<div class="nav-group"><div class="nav-label">Workbench</div>` +
+    TOOLS.map(item).join('') + `</div>`;
 
   PHASES.forEach(p => {
     const list = TRACKS.filter(t => t.phase === p.k);
@@ -54,6 +72,7 @@ let roleFilter = 'all';
 
 function dashboard() {
   const pct = overallPct();
+  const plan = store.plan;
   const streak = store.all.streak;
   const last = store.pref('last');
   const lastTrack = last ? trackById(last.split(':')[0]) : null;
@@ -66,9 +85,14 @@ function dashboard() {
     <div class="eyebrow">Full-stack marketing, content, GTM &amp; service</div>
     <h1 class="h-xl">The operating system for intermediate&nbsp;→&nbsp;senior practice</h1>
     <div style="color:var(--am)">${brushRule(0)}</div>
-    <p class="lede">17 tracks · ${TRACKS.reduce((a, t) => a + t.sections.length, 0)} sections · ${QUIZ.length} exam questions ·
-      ${FRAMEWORKS.length} frameworks · ${GLOSSARY.length} glossary terms · ${TRACKS.length} portfolio artefacts.
-      Everything is stored on this device.</p>
+    <p class="lede">${TRACKS.length} tracks · ${TRACKS.reduce((a, t) => a + t.sections.length, 0)} sections ·
+      ${DRILLS.length} timed drills · ${SIMS.length} take-home simulations · ${QUIZ.length} exam questions ·
+      ${FRAMEWORKS.length} frameworks · ${TRACKS.length} portfolio artefacts. Everything stays on this device.</p>
+
+    <div class="row" style="gap:8px;margin-bottom:12px">
+      <a class="btn" href="#/today" style="flex:1;text-align:center">Today's brief</a>
+      <a class="btn sec" href="${plan ? '#/plan' : '#/paths'}" style="flex:1;text-align:center">${plan ? 'Your plan' : 'Pick a role path'}</a>
+    </div>
 
     <div class="card">
       <div class="between" style="margin-bottom:7px">
@@ -79,6 +103,7 @@ function dashboard() {
       <div class="row dim" style="margin-top:9px;font-size:11.5px;font-family:var(--mono)">
         <span>${streak.count || 0}-day streak</span><span>·</span>
         <span>${notes} note${notes === 1 ? '' : 's'}</span><span>·</span>
+        <span>${store.drillCount} drill run${store.drillCount === 1 ? '' : 's'}</span><span>·</span>
         <span>${quizzes} quiz${quizzes === 1 ? '' : 'zes'} attempted</span>
       </div>
     </div>
@@ -121,11 +146,11 @@ function dashboard() {
       ${brushFlourish()}
       <div class="eyebrow">How to use this</div>
       <ol class="b-steps" style="margin-bottom:0">
-        <li><span class="num">1</span><div><span class="nm">Study the sections.</span> Mark each done — that drives your progress and the streak.</div></li>
-        <li><span class="num">2</span><div><span class="nm">Run the drills.</span> Five minutes each. They build recall faster than re-reading.</div></li>
-        <li><span class="num">3</span><div><span class="nm">Build the artefact.</span> One per track, 17 portfolio pieces. This is what gets you hired.</div></li>
-        <li><span class="num">4</span><div><span class="nm">Quiz, then flashcards.</span> Quiz checks understanding; the cards keep it.</div></li>
-        <li><span class="num">5</span><div><span class="nm">Rehearse out loud</span> from the interview bank before any assessment.</div></li>
+        <li><span class="num">1</span><div><span class="nm"><a href="#/paths">Pick the role path</a> you are applying for.</span> It builds an ordered plan from the track you would otherwise browse aimlessly.</div></li>
+        <li><span class="num">2</span><div><span class="nm">Open <a href="#/today">Today</a> each morning.</span> One section, one timed drill, whatever cards are due, one answer said out loud.</div></li>
+        <li><span class="num">3</span><div><span class="nm"><a href="#/practice">Write under the clock.</a></span> Drills build the muscle; simulations rehearse the real assessment with a rubric.</div></li>
+        <li><span class="num">4</span><div><span class="nm"><a href="#/portfolio">Build the artefacts here</a>, not in another app.</span> Each exports as a clean document you can send.</div></li>
+        <li><span class="num">5</span><div><span class="nm">Before applying, run the <a href="#/jd">job description mapper</a></span> and check <a href="#/readiness">readiness</a>. Name your real gaps rather than discovering them in the interview.</div></li>
       </ol>
     </div>
   </div>`;
@@ -239,6 +264,15 @@ function artifactBody(t) {
     </div>
     <div style="color:var(${t.color})">${brushRule(t.n % 3)}</div>
     ${t.artifact.intro ? `<p class="lede">${md(t.artifact.intro)}</p>` : ''}
+    <a class="card" href="#/build/${t.id}" style="border-color:var(--am);display:flex;gap:12px;align-items:center">
+      <span style="font-size:20px;color:var(--am)">❖</span>
+      <span style="flex:1;min-width:0">
+        <span class="eyebrow" style="margin:0;color:var(--am)">Workspace</span>
+        <span style="font-weight:600;display:block">Write it here and export it</span>
+        <span class="dim" style="font-size:12.3px">${t.artifact.steps.filter((_, i) => store.hasWork(t.id, i)).length}/${t.artifact.steps.length} sections drafted · ${store.workWords(t.id)} words</span>
+      </span>
+      <span class="mono dim">→</span>
+    </a>
     ${t.artifact.steps.map((s, i) => `
       <button class="check" data-step="${i}" aria-pressed="${store.isStep(t.id, i)}">
         <span class="box">${brushCheck()}</span><span class="lbl"><strong>${md(s.s)}</strong></span>
@@ -264,6 +298,10 @@ TRACKS.forEach(t => {
     text: (t.artifact.title + ' ' + t.artifact.steps.map(s => s.s + ' ' + (s.guide || '')).join(' ')).toLowerCase()
   });
 });
+DRILLS.forEach(d => INDEX.push({ kind: 'Drill', title: d.title, sub: `${d.minutes} minute timed drill`, href: `#/drill/${d.id}`, text: (d.title + ' ' + d.prompt + ' ' + d.constraints.join(' ')).toLowerCase() }));
+SIMS.forEach(s => INDEX.push({ kind: 'Simulation', title: s.title, sub: `${s.role} · ${s.minutes} minutes`, href: `#/sim/${s.id}`, text: (s.title + ' ' + s.role + ' ' + s.scenario + ' ' + s.deliverable).toLowerCase() }));
+PATHS.forEach(p => INDEX.push({ kind: 'Path', title: p.label, sub: p.aka, href: '#/paths', text: (p.label + ' ' + p.aka + ' ' + p.proves + ' ' + p.tests.join(' ')).toLowerCase() }));
+COMPETENCIES.forEach(c => INDEX.push({ kind: 'Competency', title: c.label, sub: c.proofHint, href: '#/jd', text: (c.label + ' ' + c.terms.join(' ') + ' ' + c.proofHint).toLowerCase() }));
 FRAMEWORKS.forEach(f => INDEX.push({ kind: 'Framework', title: f.n, sub: `${f.src} · ${f.use}`, href: '#/frameworks', text: (f.n + ' ' + f.src + ' ' + f.use + ' ' + f.steps.join(' ')).toLowerCase() }));
 GLOSSARY.forEach(g => INDEX.push({ kind: 'Term', title: g.k, sub: g.d, href: '#/glossary', text: (g.k + ' ' + g.d).toLowerCase() }));
 TEMPLATES.forEach(c => c.items.forEach(i => INDEX.push({ kind: 'Template', title: i.n, sub: c.cat, href: '#/templates', text: (i.n + ' ' + c.cat + ' ' + i.v).toLowerCase() })));
@@ -362,13 +400,19 @@ function swipe(el, handler) {
 
 /* ─────────── mobile tab bar ─────────── */
 const tabbar = document.getElementById('tabbar');
+const TAB_MATCH = {
+  '#/today': h => ['#/today', '#/plan', '#/paths', '#/weak'].includes(h),
+  '#/': h => h === '#/' || h.startsWith('#/t/') || h.startsWith('#/quiz/') || h === '#/exam',
+  '#/practice': h => h === '#/practice' || h.startsWith('#/drill/') || h.startsWith('#/sim/') || h === '#/cards',
+  '#/portfolio': h => h === '#/portfolio' || h.startsWith('#/build/') || h === '#/jd' || h === '#/readiness',
+  '#/frameworks': h => ['#/frameworks', '#/templates', '#/prompts', '#/glossary', '#/interview', '#/calc', '#/progress'].includes(h)
+};
+
 function markTabbar() {
   const h = location.hash || '#/';
   tabbar.querySelectorAll('a').forEach(a => {
     const target = a.getAttribute('href');
-    const on = target === '#/'
-      ? (h === '#/' || h.startsWith('#/t/') || h.startsWith('#/quiz/'))
-      : h === target || (target === '#/frameworks' && ['#/templates', '#/prompts', '#/glossary', '#/interview', '#/progress'].includes(h));
+    const on = TAB_MATCH[target]?.(h);
     if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
 }
@@ -379,6 +423,7 @@ export function go(hash) { if (location.hash === hash) route(); else location.ha
 function route() {
   const [, seg, a, b] = (location.hash || '#/').split('/');
   setNav(false);
+  stopTimers();
   window.scrollTo(0, 0);
 
   switch (seg) {
@@ -387,6 +432,17 @@ function route() {
     case 'quiz': quizView(main, a); break;
     case 'exam': examView(main); break;
     case 'cards': cardsView(main); break;
+    case 'today': todayView(main); break;
+    case 'paths': pathsView(main); break;
+    case 'plan': planView(main); break;
+    case 'practice': practiceView(main); break;
+    case 'drill': drillView(main, a); break;
+    case 'sim': simView(main, a); break;
+    case 'build': builderView(main, a); break;
+    case 'portfolio': portfolioView(main); break;
+    case 'jd': jdView(main); break;
+    case 'readiness': readinessView(main); break;
+    case 'weak': weakView(main); break;
     case 'frameworks': frameworksView(main); break;
     case 'templates': templatesView(main); break;
     case 'prompts': promptsView(main); break;
@@ -401,7 +457,43 @@ function route() {
   main.focus({ preventScroll: true });
 }
 
+/* ─────────── protecting the written work ─────────── */
+// Everything lives in localStorage, which a browser can evict. Once there is real
+// work in here, nag for a backup rather than letting months of it vanish silently.
+document.addEventListener('praxis:storage-error', () => {
+  toast({
+    id: 'quota', icon: '!', timeout: 0,
+    msg: 'This device refused to save. Export your work now before writing more.',
+    action: 'Export', secondary: 'Dismiss',
+    onAction: () => { backupNow(); }
+  });
+});
+
+function backupNow() {
+  download(`praxis-backup-${new Date().toISOString().slice(0, 10)}.json`, store.exportAll(), 'application/json');
+  store.pref('lastBackup', Date.now());
+}
+
+function maybeNagBackup() {
+  const risk = store.valueAtRisk();
+  const last = store.pref('lastBackup') || 0;
+  const nag = store.pref('backupNag') || 0;
+  const now = Date.now();
+  if (risk < 8) return;
+  if (now - last < 14 * 864e5) return;
+  if (now - nag < 3 * 864e5) return;
+  store.pref('backupNag', now);
+  setTimeout(() => toast({
+    id: 'backup', icon: '↓', timeout: 0,
+    msg: `${risk} pieces of work are saved only on this device.`,
+    action: 'Back up', secondary: 'Not now',
+    onAction: () => { backupNow(); toast({ msg: 'Backup downloaded. Keep it somewhere else.', icon: '✓', timeout: 3000 }); }
+  }), 4000);
+}
+
 window.addEventListener('hashchange', route);
+window.addEventListener('beforeunload', () => store.flushNow());
 buildNav();
 route();
 initPWA();
+maybeNagBackup();
