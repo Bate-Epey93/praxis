@@ -357,7 +357,7 @@ export function readinessView(el) {
       <div class="bar" style="margin-top:9px"><i style="width:${r.score}%"></i></div>
       <div class="row" style="gap:6px;margin-top:10px">
         <a class="chip" href="#/paths">Plan</a>
-        ${r.p.sims.map(id => { const s = simById(id); return s ? `<a class="chip" href="#/sim/${id}">${esc(s.title.slice(0, 28))}</a>` : ''; }).join('')}
+        ${r.p.sims.map(id => { const s = simById(id); return s ? `<a class="chip trunc" href="#/sim/${id}" title="${esc(s.title)}">${esc(s.title)}</a>` : ''; }).join('')}
       </div>
     </div>`).join('')}
 

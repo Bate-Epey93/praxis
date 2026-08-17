@@ -499,6 +499,9 @@ textarea.drill-area,textarea.sim-area{min-height:46vh;font-size:15px;line-height
   background:color-mix(in srgb,var(--am) 16%,transparent);color:var(--am);font-size:15px}
 .today-cta{font-size:10.5px;color:var(--tx-3);flex:0 0 auto}
 
+/* chips that carry a long title: ellipsis rather than a mid-word cut */
+.chip.trunc{max-width:min(100%,22ch);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
 /* jd mapper */
 textarea.jd-area{min-height:200px;font-family:var(--sans);font-size:13.6px;line-height:1.55}
 
