@@ -1,6 +1,6 @@
 // Praxis service worker — offline-first for a fully static app.
 // Bump VERSION and js/version.js together when shipping.
-const VERSION = 'praxis-960d5f2f53';
+const VERSION = 'praxis-e41d5d75d4';
 const BASE = self.registration.scope;
 // On localhost, always prefer the network: cache-first makes local development
 // serve yesterday's bundle and turns every change into a debugging session.

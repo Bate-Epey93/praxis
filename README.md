@@ -46,9 +46,9 @@ Track 18 (**Strategic Communications**) covers corporate and executive narrative
 |---|---|
 | **Today** | Assembles the day: the next thing in your plan, one timed drill, cards due, weak spots, the artefact in progress, and one interview question to answer out loud. |
 | **Prep paths** | Nine role families (copywriter, content strategist, content SEO, PMM, lifecycle, CRO, support specialist, support lead, communications) × three time budgets. Generates an ordered, checkable plan: what to read, write, rehearse. |
-| **Practice** | Timed writing drills and full take-home simulations. Simulations ship with a company, a scenario, materials to reason from, a deliverable, a countdown, and a weighted rubric you score yourself against. |
+| **Practice** | 65 timed writing drills and 8 full take-home simulations. Simulations ship with a company, a scenario, materials to reason from, a deliverable, a countdown, and a weighted rubric you score yourself against. |
 | **Portfolio** | Every artefact has a workspace. Write it in the app, export it as Markdown or as a clean printable document. |
-| **JD mapper** | Paste a job advert. It matches the language against a competency taxonomy, shows coverage from what you have actually studied and built, and splits requirements into can-evidence / thin / genuine gaps. |
+| **JD mapper** | Paste a job advert. It matches the language against a 40-competency taxonomy (470 job-description phrases), shows coverage from what you have actually studied and built, and splits requirements into can-evidence / thin / genuine gaps. |
 | **Readiness** | A weighted score per role family, biased toward things a hiring manager can see: must-know sections, finished artefacts, simulations completed. |
 | **Weak spots** | Questions you answered wrongly resurface until you get them right. |
 | **Rehearsal** | Interview questions on a 90-second clock, no notes, self-graded. Shaky answers come back first. |
