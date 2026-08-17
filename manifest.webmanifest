@@ -1,0 +1,23 @@
+{
+  "name": "Praxis — Marketing, Content, GTM & Service OS",
+  "short_name": "Praxis",
+  "description": "Intermediate-to-senior operating system for copywriting, content strategy, CRO, go-to-market and customer service: study tracks, frameworks, drills, quizzes, calculators and portfolio artefacts.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "categories": ["education", "productivity", "business"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Mixed exam", "url": "./#/exam" },
+    { "name": "Flashcards", "url": "./#/cards" },
+    { "name": "Calculators", "url": "./#/calc" },
+    { "name": "Interview bank", "url": "./#/interview" }
+  ]
+}

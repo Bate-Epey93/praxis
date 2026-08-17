@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Praxis — Marketing, Content, GTM & Service OS</title>
+<meta name="description" content="Intermediate-to-senior operating system for copywriting, content strategy, CRO, go-to-market, and customer service. Study notes, frameworks, drills, quizzes, calculators, portfolio artifacts.">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Praxis">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <button class="icon-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+  <a class="brand" href="#/">
+    <span class="brand-mark" id="brandMark" aria-hidden="true"></span>
+    <span class="brand-text">
+      <strong>Praxis</strong>
+      <em>Marketing · Content · GTM · Service</em>
+    </span>
+  </a>
+  <div class="topbar-right">
+    <button class="icon-btn" id="searchBtn" aria-label="Search everything" title="Search (press /)">⌕</button>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">◐</button>
+    <button class="ghost-btn" id="installBtn" hidden>Install</button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidenav" id="sidenav" aria-label="Primary">
+    <div class="sidenav-inner" id="sidenavInner"></div>
+  </nav>
+  <div class="scrim" id="scrim" hidden></div>
+  <main id="main" tabindex="-1"></main>
+</div>
+
+<nav class="tabbar" id="tabbar" aria-label="Quick navigation">
+  <a href="#/"><i>◆</i>Tracks</a>
+  <a href="#/cards"><i>⚑</i>Cards</a>
+  <a href="#/exam"><i>★</i>Exam</a>
+  <a href="#/calc"><i>∑</i>Calc</a>
+  <a href="#/frameworks"><i>⬡</i>Library</a>
+</nav>
+
+<div class="palette" id="palette" hidden role="dialog" aria-modal="true" aria-label="Search everything">
+  <div class="palette-box">
+    <input id="paletteInput" type="search" placeholder="Search sections, frameworks, terms, prompts, drills…" autocomplete="off" spellcheck="false">
+    <div class="palette-results" id="paletteResults"></div>
+    <div class="palette-hint">Enter to open · Esc to close</div>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
