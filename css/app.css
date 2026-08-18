@@ -106,20 +106,20 @@ img,svg{max-width:100%}
 ::selection{background:color-mix(in srgb,var(--am) 35%,transparent)}
 
 /* ── glass utility ── */
-.glass,.card,.disc,.tabs,.fc,.palette-box,.opt,.check,textarea.note,.field input,.field select,.b-formula,.b-plain,.tbl-wrap,.bench .r,.b-drill .it,.b-ge,.b-script{
+.glass,.card,.disc,.plan-row,.tabs,.fc,.palette-box,.opt,.check,textarea.note,.field input,.field select,.b-formula,.b-plain,.tbl-wrap,.bench .r,.b-drill .it,.b-ge,.b-script{
   background-image:var(--glass-2);
   background-color:transparent;
   border:1px solid var(--glass-line);
   box-shadow:var(--sheen);
 }
-.card,.disc,.fc,.palette-box{
+.card,.disc,.plan-row,.fc,.palette-box{
   background-color:color-mix(in srgb,var(--bg) 34%,transparent);
   background-image:var(--glass);
   -webkit-backdrop-filter:var(--blur-lite);backdrop-filter:var(--blur-lite);
   box-shadow:var(--sheen),var(--lift);
 }
 @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
-  .card,.disc,.fc,.palette-box,.topbar,.sidenav,.tabbar{background-color:var(--bg-2)}
+  .card,.disc,.plan-row,.fc,.palette-box,.topbar,.sidenav,.tabbar{background-color:var(--bg-2)}
 }
 
 /* ── brush marks ── */
@@ -483,15 +483,65 @@ textarea.drill-area,textarea.sim-area{min-height:46vh;font-size:15px;line-height
 .score-btn[aria-pressed="true"]{background:color-mix(in srgb,var(--am) 20%,transparent);
   border-color:var(--am);color:var(--tx);font-weight:600}
 
-/* plan checklist */
-.plan-row{display:flex;align-items:stretch;gap:7px;margin-bottom:6px}
-.plan-row.done .plan-label{text-decoration:line-through;opacity:.55}
-.plan-check{width:42px;flex:0 0 42px;margin:0;justify-content:center;padding:0}
-.plan-link{flex:1;min-width:0;display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:center;
-  padding:10px 13px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);color:var(--tx)}
-.plan-link:hover{text-decoration:none;border-color:var(--line-2)}
-.plan-kind{font-size:12px;color:var(--am);text-align:center}
-.plan-label{font-weight:600;font-size:13.6px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* plan checklist — one card per item, checkbox lives inside it */
+.plan-group{margin-top:22px}
+.plan-head{display:flex;align-items:baseline;gap:9px;margin-bottom:9px}
+.plan-head .eyebrow{margin:0}
+.plan-head .plan-count{font-family:var(--mono);font-size:9.5px;color:var(--tx-3);margin-left:auto}
+.plan-meter{height:2px;border-radius:2px;background:var(--line);overflow:hidden;margin-bottom:11px}
+.plan-meter > i{display:block;height:100%;border-radius:2px;background:currentColor;opacity:.75;transition:width .4s ease}
+
+.plan-row{position:relative;display:grid;grid-template-columns:46px 1fr;align-items:stretch;
+  margin-bottom:7px;border-radius:var(--r);
+  transition:border-color .18s,transform .18s cubic-bezier(.2,.8,.2,1),opacity .2s}
+.plan-row:hover{border-color:var(--glass-line-2);transform:translateY(-1px)}
+.plan-row.done{opacity:.62}
+.plan-row.done:hover{opacity:.85}
+
+/* the thread running down the group, so a plan reads as a sequence not a stack */
+.plan-row:not(:last-child)::after{content:"";position:absolute;left:23px;top:calc(50% + 13px);
+  height:calc(50% + 8px);width:1px;background:linear-gradient(180deg,var(--line-2),transparent);pointer-events:none}
+.plan-row.done:not(:last-child)::after{background:linear-gradient(180deg,var(--gr),transparent);opacity:.5}
+
+/* checkbox column: transparent, generous target, circle in the middle */
+.plan-check{all:unset;box-sizing:border-box;display:grid;place-items:center;cursor:pointer;
+  width:100%;height:100%;justify-self:stretch;align-self:stretch;
+  border-right:1px solid var(--glass-line);border-radius:var(--r) 0 0 var(--r)}
+.plan-check:focus-visible{outline:2px solid var(--am);outline-offset:-3px}
+.plan-check .box{width:19px;height:19px;border-radius:50%;border:1.5px solid var(--line-2);
+  display:grid;place-items:center;color:transparent;transition:all .18s cubic-bezier(.2,.8,.2,1)}
+.plan-check .box svg{width:11px;height:11px;opacity:0;transform:scale(.6);transition:all .2s cubic-bezier(.2,.8,.2,1)}
+.plan-check:hover .box{border-color:var(--am);transform:scale(1.08)}
+.plan-row.done .plan-check .box{background:var(--gr);border-color:var(--gr);color:#fff}
+.plan-row.done .plan-check .box svg{opacity:1;transform:none}
+
+/* content */
+.plan-link{display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;
+  padding:11px 14px 11px 11px;color:var(--tx);min-width:0}
+.plan-link:hover{text-decoration:none}
+.plan-kind{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;
+  background:color-mix(in srgb,currentColor 15%,transparent);color:var(--am)}
+.plan-label{font-weight:600;font-size:13.7px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.35}
+.plan-row.done .plan-label{text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--tx-3)}
+.plan-mins{font-family:var(--mono);font-size:10px;color:var(--tx-3);padding:3px 7px;border-radius:20px;
+  border:1px solid var(--line);white-space:nowrap}
+.plan-row.done .plan-mins{opacity:.6}
+
+/* each kind gets its own accent, so the eye can sort read from write from build */
+.plan-row[data-kind="section"]   .plan-kind{color:var(--cy)}
+.plan-row[data-kind="quiz"]      .plan-kind{color:var(--vi)}
+.plan-row[data-kind="drill"]     .plan-kind{color:var(--am)}
+.plan-row[data-kind="sim"]       .plan-kind{color:var(--or)}
+.plan-row[data-kind="artefact"]  .plan-kind{color:var(--gr)}
+.plan-row[data-kind="interview"] .plan-kind{color:var(--rs)}
+.plan-row[data-kind="cards"]     .plan-kind{color:var(--cy)}
+.plan-row[data-kind="review"]    .plan-kind{color:var(--am)}
+
+@media (max-width:520px){
+  .plan-row{grid-template-columns:44px 1fr}
+  .plan-row:not(:last-child)::after{left:22px}
+  .plan-link{grid-template-columns:22px 1fr auto;gap:9px;padding:10px 11px 10px 9px}
+}
 
 /* today */
 .today-card{display:flex;gap:12px;align-items:center}
@@ -506,7 +556,6 @@ textarea.drill-area,textarea.sim-area{min-height:46vh;font-size:15px;line-height
 textarea.jd-area{min-height:200px;font-family:var(--sans);font-size:13.6px;line-height:1.55}
 
 @media (max-width:520px){
-  .plan-check{width:38px;flex:0 0 38px}
   .score-row{grid-template-columns:repeat(2,1fr)}
   textarea.drill-area,textarea.sim-area{min-height:40vh}
 }

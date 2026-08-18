@@ -101,6 +101,8 @@ function itemDone(it) {
 }
 
 const KIND_ICON = { section: '§', quiz: '?', drill: '✎', sim: '◈', artefact: '◆', interview: '☰', cards: '⚑', review: '◑' };
+const KIND_COLOUR = { section: '--cy', quiz: '--vi', drill: '--am', sim: '--or', artefact: '--gr',
+  interview: '--rs', cards: '--cy', review: '--am' };
 
 /* ═════════ path chooser ═════════ */
 export function pathsView(el) {
@@ -193,20 +195,27 @@ export function planView(el) {
       const labels = { section: 'Read', quiz: 'Check understanding', drill: 'Write under a clock',
         sim: 'Full simulation', artefact: 'Build the portfolio piece', interview: 'Rehearse',
         cards: 'Retain', review: 'Review' };
-      return `<div style="margin-top:18px">
-        <div class="eyebrow">${esc(labels[kind])}</div>
+      const gDone = group.filter(itemDone).length;
+      const gMins = group.filter(i => !itemDone(i)).reduce((a, i) => a + i.mins, 0);
+      return `<div class="plan-group" style="color:var(${KIND_COLOUR[kind]})">
+        <div class="plan-head">
+          <span class="eyebrow" style="color:inherit">${esc(labels[kind])}</span>
+          <span class="plan-count">${gDone}/${group.length}${gMins ? ` · ${gMins < 60 ? gMins + 'm' : Math.round(gMins / 6) / 10 + 'h'} left` : ' · done'}</span>
+        </div>
+        <div class="plan-meter"><i style="width:${(gDone / group.length) * 100}%"></i></div>
         ${group.map(i => {
           const d = itemDone(i);
-          return `<div class="plan-row${d ? ' done' : ''}">
-            <button class="check plan-check" data-key="${esc(i.key)}" aria-pressed="${d}" title="Mark done">
+          return `<div class="plan-row${d ? ' done' : ''}" data-kind="${i.kind}">
+            <button class="plan-check" data-key="${esc(i.key)}" aria-pressed="${d}"
+              aria-label="${d ? 'Mark not done' : 'Mark done'}: ${esc(i.label)}">
               <span class="box">${brushCheck()}</span></button>
             <a class="plan-link" href="${i.href}">
               <span class="plan-kind mono">${KIND_ICON[i.kind]}</span>
               <span style="min-width:0">
                 <span class="plan-label">${esc(i.label)}</span>
-                <span class="dim" style="font-size:11.8px;display:block">${esc(i.sub)}</span>
+                <span class="dim" style="font-size:11.7px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.sub)}</span>
               </span>
-              <span class="mono dim" style="font-size:10px">${i.mins}m</span>
+              <span class="plan-mins">${i.mins}m</span>
             </a>
           </div>`;
         }).join('')}
