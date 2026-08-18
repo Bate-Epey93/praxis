@@ -13,9 +13,11 @@ const DEFAULTS = {
   sims: {},       // simId -> {at, text, elapsed, scores:{criterion:0-3}, submitted}
   plan: null,     // {role, budget, startedAt, done:{key:true}}
   reviews: {},    // "sim:id" | "drill:id" | "art:trackId" -> {at, source, model, review, rubric, notes}
+  hl: {},         // sectionId -> [{id, b, start, end, text, group, kind, at}] highlighter clippings
   // apiKey is only ever set by the reader, only used for their own review requests,
   // and is stripped from exports so a shared backup file cannot leak it.
-  prefs: { theme: 'dark', last: '', lastBackup: 0, backupNag: 0, apiKey: '', reviewModel: '' },
+  prefs: { theme: 'dark', last: '', lastBackup: 0, backupNag: 0, apiKey: '', reviewModel: '',
+           hlOn: false, hlPanel: false },
   streak: { days: [], count: 0 }
 };
 
@@ -138,6 +140,20 @@ export const store = {
     state.sims[id] = s; save(); return s;
   },
 
+  /* ── highlighter clippings ── */
+  highlights(sectionId) { return state.hl[sectionId] || []; },
+  addHighlight(sectionId, clip) {
+    (state.hl[sectionId] = state.hl[sectionId] || []).push(clip);
+    save(); return clip;
+  },
+  removeHighlight(sectionId, id) {
+    state.hl[sectionId] = (state.hl[sectionId] || []).filter(h => h.id !== id);
+    if (!state.hl[sectionId].length) delete state.hl[sectionId];
+    save();
+  },
+  clearHighlights(sectionId) { delete state.hl[sectionId]; save(); },
+  get highlightCount() { return Object.values(state.hl).reduce((a, l) => a + l.length, 0); },
+
   /* ── second-opinion reviews ── */
   review(key) { return state.reviews[key] || null; },
   saveReview(key, payload) { state.reviews[key] = payload; save(); return payload; },
@@ -186,6 +202,7 @@ export const store = {
       + Object.keys(state.work).length
       + Object.values(state.sims).filter(s => s.text).length
       + Object.keys(state.reviews).length
+      + Object.keys(state.hl).length
       + this.drillCount;
   },
   bytesUsed() {

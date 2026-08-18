@@ -7,6 +7,7 @@ import { builderView, portfolioView, download } from './build.js';
 import { practiceView, drillView, simView, stopTimers } from './practice.js';
 import { pathsView, planView, todayView, readinessView, weakView } from './paths.js';
 import { jdView } from './jd.js';
+import { mountHighlighter, unmountHighlighter, edgeActive } from './highlight.js';
 import { DRILLS, SIMS } from '../data/practice.js';
 import { PATHS } from '../data/paths.js';
 import { COMPETENCIES } from '../data/taxonomy.js';
@@ -179,6 +180,7 @@ function trackView(id, secRaw) {
   const body = isArt ? artifactBody(t) : `
     <h2 class="h-lg">${esc(sec.title)}</h2>
     <div style="color:var(${t.color})">${brushRule(t.n % 3)}</div>
+    <div class="hl-bar" id="hlBar"></div>
     <div class="blocks">${renderBlocks(sec.blocks)}</div>
     <div class="note-wrap">
       <div class="eyebrow">Your notes — ${esc(sec.title)}</div>
@@ -214,12 +216,23 @@ function trackView(id, secRaw) {
     </div>
   </div>`;
 
+  if (!isArt) {
+    mountHighlighter({
+      sectionId: sec.id, sectionTitle: sec.title,
+      blocksEl: main.querySelector('.blocks'),
+      toolbarEl: main.querySelector('#hlBar')
+    });
+  } else {
+    unmountHighlighter();
+  }
+
   main.querySelectorAll('[data-sec]').forEach(b => b.onclick = () => go(`#/t/${t.id}/${b.dataset.sec}`));
   const activeTab = main.querySelector('[data-sec][aria-selected="true"]');
   if (activeTab) activeTab.scrollIntoView({ inline: 'center', block: 'nearest' });
 
   // swipe left/right between sections on touch devices
   swipe(main, dir => {
+    if (edgeActive() || document.body.classList.contains('hl-open')) return;
     if (dir < 0) main.querySelector('[data-go="next"]').click();
     else main.querySelector('[data-go="prev"]').click();
   });
@@ -386,7 +399,7 @@ function swipe(el, handler) {
   el.addEventListener('touchstart', e => {
     if (e.touches.length !== 1) return;
     // ignore swipes that start inside something horizontally scrollable
-    if (e.target.closest('.tbl-wrap, .tabs, .b-code, textarea, input')) { active = false; return; }
+    if (e.target.closest('.tbl-wrap, .tabs, .b-code, textarea, input, #hlPanel, .hl-handle')) { active = false; return; }
     x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; active = true;
   }, { passive: true });
   el.addEventListener('touchend', e => {
@@ -425,6 +438,8 @@ function route() {
   setNav(false);
   stopTimers();
   window.scrollTo(0, 0);
+
+  if (seg !== 't') unmountHighlighter();
 
   switch (seg) {
     case '': case undefined: dashboard(); break;

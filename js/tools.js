@@ -484,6 +484,7 @@ export function progressView(el) {
       <div class="out-row"><span class="k">Timed drill runs</span><span class="v">${store.drillCount}</span></div>
       <div class="out-row"><span class="k">Simulations submitted</span><span class="v">${SIMS.filter(s => store.sim(s.id)?.submitted).length}/${SIMS.length}</span></div>
       <div class="out-row"><span class="k">Weak spots outstanding</span><span class="v">${store.missedKeys.length}</span></div>
+      <div class="out-row"><span class="k">Highlighter clippings</span><span class="v">${store.highlightCount}</span></div>
       <div class="row" style="gap:6px;margin-top:10px">
         <a class="chip" href="#/portfolio">Portfolio</a><a class="chip" href="#/practice">Practice</a>
         ${store.missedKeys.length ? '<a class="chip" href="#/weak">Weak spots</a>' : ''}
@@ -623,9 +624,26 @@ function notesMarkdown() {
   TRACKS.forEach(t => {
     const secNotes = t.sections.filter(s => store.note(s.id));
     const art = store.note('art-' + t.id);
-    if (!secNotes.length && !art) return;
+    const clipped = t.sections.some(s => store.highlights(s.id).length);
+    if (!secNotes.length && !art && !clipped) return;
     lines.push(`## ${String(t.n).padStart(2, '0')} · ${t.title}`, '');
     secNotes.forEach(s => lines.push(`### ${s.title}`, '', store.note(s.id), ''));
+    t.sections.forEach(s => {
+      const clips = store.highlights(s.id);
+      if (!clips.length) return;
+      lines.push(`### ${s.title} — highlights`, '');
+      const groups = [];
+      clips.forEach(h => {
+        let g = groups.find(x => x.title === h.group);
+        if (!g) groups.push(g = { title: h.group, items: [] });
+        g.items.push(h);
+      });
+      groups.forEach(g => {
+        lines.push(`**${g.title}**`, '');
+        g.items.forEach(h => lines.push(`- ${h.text}`));
+        lines.push('');
+      });
+    });
     if (art) lines.push(`### Artefact — ${t.artifact.title}`, '', art, '');
   });
   return lines.join('\n');

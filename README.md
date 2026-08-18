@@ -51,6 +51,7 @@ Track 18 (**Strategic Communications**) covers corporate and executive narrative
 | **JD mapper** | Paste a job advert. It matches the language against a 40-competency taxonomy (470 job-description phrases), shows coverage from what you have actually studied and built, and splits requirements into can-evidence / thin / genuine gaps. |
 | **Readiness** | A weighted score per role family, biased toward things a hiring manager can see: must-know sections, finished artefacts, simulations completed. |
 | **Weak spots** | Questions you answered wrongly resurface until you get them right. |
+| **Highlighter and summary notepad** | Every study section has a highlighter. Select a passage and it is marked in place and clipped to a notepad on the right, filed under the subheading it came from and tagged by what it is (key insight, pitfall, case, table). Docked rail on wide screens, Samsung-style edge panel on a phone: swipe in from the right edge or tap the grabber. Clippings copy as Markdown, fold into the section's notes, and appear in the notes export. |
 | **Second opinion** | Simulations, drills and artefacts can be marked by an outside reviewer against the same rubric, then shown next to your own score. Three routes: copy a review pack into any AI chat and paste the reply back (sends nothing from the app), review in-app with your own Anthropic API key (one disclosed request), or skip it. |
 | **Rehearsal** | Interview questions on a 90-second clock, no notes, self-graded. Shaky answers come back first. |
 

@@ -1,6 +1,6 @@
 // Praxis service worker — offline-first for a fully static app.
 // Bump VERSION and js/version.js together when shipping.
-const VERSION = 'praxis-9ea60fdd96';
+const VERSION = 'praxis-b8e9b7967c';
 const BASE = self.registration.scope;
 // On localhost, always prefer the network: cache-first makes local development
 // serve yesterday's bundle and turns every change into a debugging session.
@@ -11,7 +11,7 @@ const ASSETS = [
   'css/app.css',
   'js/app.js', 'js/store.js', 'js/render.js', 'js/quiz.js', 'js/tools.js', 'js/progress.js',
   'js/pwa.js', 'js/toast.js', 'js/version.js',
-  'js/build.js', 'js/practice.js', 'js/paths.js', 'js/jd.js', 'js/review.js',
+  'js/build.js', 'js/practice.js', 'js/paths.js', 'js/jd.js', 'js/review.js', 'js/highlight.js',
   'data/index.js', 'data/t-foundations.js', 'data/t-positioning.js', 'data/t-conversion.js',
   'data/t-systems.js', 'data/t-strategy.js', 'data/t-comms.js', 'data/t-service.js',
   'data/quiz.js', 'data/glossary.js', 'data/library.js', 'data/brush.js',
