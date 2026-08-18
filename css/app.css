@@ -208,7 +208,7 @@ main{flex:1;min-width:0;padding:clamp(14px,2vw,22px) clamp(12px,2.5vw,22px) 96px
 .nav-item.done .pct{color:var(--gr)}
 
 /* ── generic pieces ── */
-.card{border-radius:var(--r);padding:clamp(12px,1.6vw,16px) clamp(13px,1.8vw,18px);margin:0 0 9px;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s}
+.card{display:block;border-radius:var(--r);padding:clamp(12px,1.6vw,16px) clamp(13px,1.8vw,18px);margin:0 0 9px;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s}
 a.card:hover{text-decoration:none;transform:translateY(-2px);box-shadow:var(--sheen),0 22px 44px -22px rgba(0,0,0,.9)}
 .card-2{background-image:var(--glass-2)}
 .muted{color:var(--tx-2)} .dim{color:var(--tx-3)}
