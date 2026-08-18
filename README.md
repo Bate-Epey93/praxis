@@ -51,6 +51,7 @@ Track 18 (**Strategic Communications**) covers corporate and executive narrative
 | **JD mapper** | Paste a job advert. It matches the language against a 40-competency taxonomy (470 job-description phrases), shows coverage from what you have actually studied and built, and splits requirements into can-evidence / thin / genuine gaps. |
 | **Readiness** | A weighted score per role family, biased toward things a hiring manager can see: must-know sections, finished artefacts, simulations completed. |
 | **Weak spots** | Questions you answered wrongly resurface until you get them right. |
+| **Second opinion** | Simulations, drills and artefacts can be marked by an outside reviewer against the same rubric, then shown next to your own score. Three routes: copy a review pack into any AI chat and paste the reply back (sends nothing from the app), review in-app with your own Anthropic API key (one disclosed request), or skip it. |
 | **Rehearsal** | Interview questions on a 90-second clock, no notes, self-graded. Shaky answers come back first. |
 
 **Workbench tools**
@@ -77,6 +78,7 @@ Track 18 (**Strategic Communications**) covers corporate and executive narrative
 - No build step, no dependencies, no framework. ES modules, plain DOM.
 - No network calls at runtime: system font stack, no CDN, no analytics, no tracking.
 - All state (notes, written artefacts, drill runs, simulation submissions, plans, quiz scores, flashcard boxes) is in `localStorage` on the device. Export from **Progress & notes**.
+- **The only network call the app can make** is the optional review request, to the Anthropic API, with a key you supply, when you press the button. The key lives in this browser, is stripped from exported backups, and the service worker never touches cross-origin requests. Without a key the app remains fully offline.
 - **Data safety**: a browser can evict local storage without warning. The app nudges for a backup once there is real work in it, surfaces the last backup date, and catches quota errors rather than failing silently.
 - On `localhost` the service worker serves network-first, so development does not fight yesterday's cache. Production stays cache-first.
 - Service worker precaches everything, so it works fully offline once opened. Installable on iOS, Android and desktop.

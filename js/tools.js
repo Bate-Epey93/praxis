@@ -7,6 +7,7 @@ import { trackPct, overallPct, artifactPct } from './progress.js';
 import { checkForUpdate } from './pwa.js';
 import { APP_VERSION } from './version.js';
 import { toast } from './toast.js';
+import { MODELS } from './review.js';
 
 const num = v => { const n = parseFloat(String(v).replace(/[, %$]/g, '')); return isFinite(n) ? n : 0; };
 const money = n => '$' + Math.round(n).toLocaleString();
@@ -516,6 +517,37 @@ export function progressView(el) {
       </div>
     </div>
 
+    <div class="b-h">Second opinion</div>
+    <div class="card card-2">
+      <p class="dim" style="font-size:13px;margin:0 0 10px">
+        Simulations, drills and artefacts can be marked by an outside reviewer. Two routes: copy a review pack
+        into any AI chat and paste the reply back, which sends nothing from here, or add your own Anthropic API
+        key and have the app make the request for you. Everything else in Praxis stays offline either way.
+      </p>
+      <div class="out-row"><span class="k">Key on this device</span>
+        <span class="v" style="color:var(${store.pref('apiKey') ? '--gr' : '--tx-3'})">${store.pref('apiKey') ? 'stored' : 'none'}</span></div>
+      <div class="out-row"><span class="k">Reviews saved</span><span class="v">${store.reviewCount}</span></div>
+      <div class="field" style="margin-top:10px">
+        <label for="pgkey">Anthropic API key (optional)</label>
+        <input id="pgkey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"
+          value="${esc(store.pref('apiKey') || '')}" data-key>
+      </div>
+      <div class="field">
+        <label for="pgmodel">Reviewer model</label>
+        <select id="pgmodel" data-model>
+          ${MODELS.map(m => `<option value="${m.id}"${m.id === (store.pref('reviewModel') || MODELS[0].id) ? ' selected' : ''}>${esc(m.label)} — ${esc(m.note)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="row" style="gap:8px">
+        <button class="btn sec" data-savekey>Save</button>
+        <button class="btn sec" data-delkey style="color:var(--rs)">Remove key</button>
+      </div>
+      <p class="dim" style="font-size:12.2px;margin:10px 0 0">
+        The key is stored in this browser only, is stripped from exported backups, and is sent nowhere except
+        Anthropic when you press review. Costs land on your own account.
+      </p>
+    </div>
+
     <div class="b-h">Your data</div>
     <p class="muted" style="font-size:13.6px">Everything lives in this browser's local storage. Nothing is uploaded anywhere.
       A browser can evict local storage without warning, so export whenever you have written something you would hate to lose.</p>
@@ -537,6 +569,18 @@ export function progressView(el) {
   </div>`;
 
   el.querySelector('[data-x="update"]').onclick = () => checkForUpdate({ announce: true });
+  el.querySelector('[data-savekey]').onclick = () => {
+    store.pref('apiKey', el.querySelector('[data-key]').value.trim());
+    store.pref('reviewModel', el.querySelector('[data-model]').value);
+    toast({ msg: 'Saved on this device.', icon: '✓', timeout: 2200 });
+    progressView(el);
+  };
+  el.querySelector('[data-delkey]').onclick = () => {
+    store.pref('apiKey', '');
+    toast({ msg: 'Key removed.', icon: '✓', timeout: 2200 });
+    progressView(el);
+  };
+
   el.querySelector('[data-x="notes"]').onclick = () => download('praxis-notes.md', notesMarkdown(), 'text/markdown');
   el.querySelector('[data-x="json"]').onclick = () => {
     download(`praxis-backup-${new Date().toISOString().slice(0, 10)}.json`, store.exportAll(), 'application/json');

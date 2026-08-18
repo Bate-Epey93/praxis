@@ -510,3 +510,17 @@ textarea.jd-area{min-height:200px;font-family:var(--sans);font-size:13.6px;line-
   .score-row{grid-template-columns:repeat(2,1fr)}
   textarea.drill-area,textarea.sim-area{min-height:40vh}
 }
+
+/* ══════════ second opinion ══════════ */
+.review-card{border-color:var(--line-2)}
+.rv-panel{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.rv-check{display:flex;gap:8px;align-items:center;font-size:12.6px;color:var(--tx-2);margin-top:2px}
+.rv-check input{width:15px;height:15px;accent-color:var(--am)}
+.rv-row{padding:9px 0;border-bottom:1px solid var(--line)}
+.rv-row:last-child{border-bottom:0}
+.rv-edit{padding:11px 0;border-bottom:1px solid var(--line)}
+.rv-edit:last-child{border-bottom:0}
+.rv-quote{font-family:var(--serif);font-size:13.6px;padding:7px 11px;border-left:3px solid var(--rs);
+  background:color-mix(in srgb,var(--rs) 7%,transparent);border-radius:0 6px 6px 0;white-space:pre-wrap}
+.rv-fix{font-family:var(--serif);font-size:13.8px;padding:7px 11px;border-left:3px solid var(--gr);
+  background:color-mix(in srgb,var(--gr) 8%,transparent);border-radius:0 6px 6px 0;white-space:pre-wrap}

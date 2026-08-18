@@ -12,7 +12,10 @@ const DEFAULTS = {
   drafts: {},     // drillId -> in-progress text, so an interruption does not lose the writing
   sims: {},       // simId -> {at, text, elapsed, scores:{criterion:0-3}, submitted}
   plan: null,     // {role, budget, startedAt, done:{key:true}}
-  prefs: { theme: 'dark', last: '', lastBackup: 0, backupNag: 0 },
+  reviews: {},    // "sim:id" | "drill:id" | "art:trackId" -> {at, source, model, review, rubric, notes}
+  // apiKey is only ever set by the reader, only used for their own review requests,
+  // and is stripped from exports so a shared backup file cannot leak it.
+  prefs: { theme: 'dark', last: '', lastBackup: 0, backupNag: 0, apiKey: '', reviewModel: '' },
   streak: { days: [], count: 0 }
 };
 
@@ -135,6 +138,12 @@ export const store = {
     state.sims[id] = s; save(); return s;
   },
 
+  /* ── second-opinion reviews ── */
+  review(key) { return state.reviews[key] || null; },
+  saveReview(key, payload) { state.reviews[key] = payload; save(); return payload; },
+  clearReview(key) { delete state.reviews[key]; save(); },
+  get reviewCount() { return Object.keys(state.reviews).length; },
+
   /* ── prep plan ── */
   get plan() { return state.plan; },
   startPlan(role, budget) {
@@ -176,13 +185,18 @@ export const store = {
     return Object.keys(state.notes).length
       + Object.keys(state.work).length
       + Object.values(state.sims).filter(s => s.text).length
+      + Object.keys(state.reviews).length
       + this.drillCount;
   },
   bytesUsed() {
     try { return new Blob([JSON.stringify(state)]).size; } catch { return 0; }
   },
 
-  exportAll() { return JSON.stringify(state, null, 2); },
+  exportAll() {
+    const safe = structuredClone(state);
+    safe.prefs.apiKey = '';   // never write a credential into a file the reader may share
+    return JSON.stringify(safe, null, 2);
+  },
   importAll(json) {
     const parsed = JSON.parse(json);
     if (typeof parsed !== 'object' || !parsed) throw new Error('not praxis data');

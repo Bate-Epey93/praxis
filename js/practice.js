@@ -8,6 +8,7 @@ import { esc, md } from './render.js';
 import { brushRule, brushCheck } from '../data/brush.js';
 import { toast } from './toast.js';
 import { download } from './build.js';
+import { reviewPanel, simJob, drillJob } from './review.js';
 
 let tick = null;
 export function stopTimers() { clearInterval(tick); tick = null; }
@@ -206,10 +207,15 @@ export function drillView(el, id) {
         <div class="blocks">${md(d.goodLooksLike)}</div>
       </div>
 
+      <div data-review style="margin-top:14px"></div>
+
       <div class="pager">
         <button class="btn sec" data-retry>Run it again</button>
         <button class="btn" data-save>Save run →</button>
       </div>`);
+
+    const rvEl = el.querySelector('[data-review]');
+    if (rvEl) reviewPanel(rvEl, drillJob(d, { text }), () => paint());
 
     const picked = new Set();
     el.querySelectorAll('[data-sc]').forEach(b => b.onclick = () => {
@@ -416,6 +422,8 @@ export function simView(el, id) {
         <button class="btn sec" data-again>Run again from scratch</button>
       </div>
 
+      <div data-review style="margin-top:16px"></div>
+
       <div class="card" style="margin-top:14px">
         <div class="eyebrow">Where to go next</div>
         <div class="row" style="gap:6px;flex-wrap:wrap">
@@ -427,6 +435,9 @@ export function simView(el, id) {
       </div>
 
       <div class="pager"><a class="btn sec" href="#/practice">← Practice</a></div>`);
+
+    const rv = el.querySelector('[data-review]');
+    if (rv) reviewPanel(rv, simJob(s, st), () => paint());
 
     el.querySelector('[data-export]').onclick = () => {
       download(`${s.id}-${stamp()}.md`,

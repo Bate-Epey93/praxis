@@ -5,6 +5,7 @@ import { store, countWords } from './store.js';
 import { esc, md } from './render.js';
 import { brushRule, brushCheck } from '../data/brush.js';
 import { toast } from './toast.js';
+import { reviewPanel, artefactJob } from './review.js';
 
 const stamp = () => new Date().toISOString().slice(0, 10);
 
@@ -68,11 +69,17 @@ export function builderView(el, id) {
       </div>
     </div>
 
+    <div data-review style="margin-top:16px"></div>
+
     <div class="pager">
       <a class="btn sec" href="#/t/${t.id}/a">← Artefact brief</a>
       <a class="btn sec" href="#/portfolio">All artefacts →</a>
     </div>
   </div>`;
+
+  const rv = el.querySelector('[data-review]');
+  const drawReview = () => reviewPanel(rv, artefactJob(t, artefactBody(t)), drawReview);
+  drawReview();
 
   const status = el.querySelector('[data-status]');
   const bar = el.querySelector('[data-bar]');
@@ -103,6 +110,14 @@ export function builderView(el, id) {
       toast({ msg: 'Markdown copied.', icon: '❐', timeout: 2000 });
     } catch { toast({ msg: 'Clipboard blocked. Use Download .md instead.', timeout: 3400 }); }
   };
+}
+
+// The artefact as a reviewer would read it: headings plus what was written under each.
+function artefactBody(t) {
+  return t.artifact.steps.map((s, i) => {
+    const v = store.work(t.id, i);
+    return v.trim() ? `## ${String(s.s).replace(/\*\*/g, '')}\n\n${v.trim()}` : '';
+  }).filter(Boolean).join('\n\n');
 }
 
 function autoGrow(a) {
