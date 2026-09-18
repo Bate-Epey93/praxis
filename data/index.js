@@ -5,6 +5,7 @@ import systems from './t-systems.js';
 import strategy from './t-strategy.js';
 import comms from './t-comms.js';
 import service from './t-service.js';
+import french from './t-french.js';
 
 export { default as QUIZ } from './quiz.js';
 export { default as GLOSSARY } from './glossary.js';
@@ -22,7 +23,8 @@ const ORDER = [
   systems[2], systems[3],                              // 13 data, 14 UX
   strategy[1],                                         // 15 AI
   comms[0],                                            // 18 strategic communications
-  service[0], service[1]                               // 16 service, 17 career
+  service[0], service[1],                              // 16 service, 17 career
+  french[0]                                            // 19 français québécois
 ];
 
 export const TRACKS = ORDER.map((t, i) => ({ ...t, n: i + 1 }));
@@ -34,7 +36,8 @@ export const PHASES = [
   { k: 'Systems', c: '--gr', blurb: 'Content, discovery, data, UX' },
   { k: 'Go-to-market', c: '--or', blurb: 'Launch and AI orchestration' },
   { k: 'Strategic comms', c: '--bl', blurb: 'Narrative, stakeholders, crisis, reputation' },
-  { k: 'Service & career', c: '--rs', blurb: 'Customer service craft and positioning yourself' }
+  { k: 'Service & career', c: '--rs', blurb: 'Customer service craft and positioning yourself' },
+  { k: 'Français québécois', c: '--cy', blurb: 'Registre, chronique, communiqué, copy en français' }
 ];
 
 export const ROLES = [

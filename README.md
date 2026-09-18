@@ -11,7 +11,7 @@ Built as a merge and large expansion of two earlier study apps (a Puffy CRO inte
 
 ## What's in it
 
-**18 study tracks**, grouped into seven phases:
+**19 study tracks**, grouped into eight phases:
 
 | # | Track | Phase |
 |---|---|---|
@@ -33,6 +33,7 @@ Built as a merge and large expansion of two earlier study apps (a Puffy CRO inte
 | 18 | Strategic Communications | Strategic comms |
 | 16 | Customer Service & CX Craft | Service & career |
 | 17 | Career as Product | Service & career |
+| 19 | Écrire en français québécois | Français québécois |
 
 Each track carries: study sections with plain-English explainers, good/bad examples, benchmark data, real-world cases, senior-level pitfalls, five-minute drills, a junior/competent/senior rubric, per-section notes, and one **portfolio artefact** with step-by-step build guidance.
 
