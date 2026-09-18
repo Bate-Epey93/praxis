@@ -353,22 +353,22 @@ export function simView(el, id) {
       ${s.rubric.map((r, i) => `<div class="card">
         <div class="between"><strong style="font-size:14.5px">${esc(r.criterion)}</strong>
           <span class="mono dim" style="font-size:11px">${r.weight}%</span></div>
-        <div class="dim" style="font-size:12.8px;margin:6px 0 4px"><strong>Meets:</strong> ${md(r.meets)}</div>
-        <div class="dim" style="font-size:12.8px;margin-bottom:9px"><strong>Exceeds:</strong> ${md(r.exceeds)}</div>
+        ${r.meets ? `<div class="dim" style="font-size:12.8px;margin:6px 0 4px"><strong>Meets:</strong> ${md(r.meets)}</div>` : ''}
+        ${r.exceeds ? `<div class="dim" style="font-size:12.8px;margin-bottom:9px"><strong>Exceeds:</strong> ${md(r.exceeds)}</div>` : '<div style="margin-bottom:9px"></div>'}
         <div class="score-row" data-crit="${i}">
           ${['Missing', 'Partial', 'Meets', 'Exceeds'].map((lbl, v) =>
             `<button class="score-btn" data-v="${v}" aria-pressed="${(scores[r.criterion] ?? -1) === v}">${lbl}</button>`).join('')}
         </div>
       </div>`).join('')}
 
-      <div class="card card-2">
+      ${s.strongResponse?.length ? `<div class="card card-2">
         <div class="eyebrow">A strong response contains</div>
         <ul class="b-list">${s.strongResponse.map(x => `<li><span>${md(x)}</span></li>`).join('')}</ul>
-      </div>
-      <div class="card">
+      </div>` : ''}
+      ${s.commonFailures?.length ? `<div class="card">
         <div class="eyebrow" style="color:var(--rs)">What usually goes wrong</div>
         <ul class="b-list">${s.commonFailures.map(x => `<li><span>${md(x)}</span></li>`).join('')}</ul>
-      </div>
+      </div>` : ''}
 
       <div class="pager">
         <button class="btn sec" data-back>← Keep editing</button>
