@@ -1,6 +1,6 @@
 // Praxis service worker — offline-first for a fully static app.
 // Bump VERSION and js/version.js together when shipping.
-const VERSION = 'praxis-d23f7ee0c3';
+const VERSION = 'praxis-481d17dbbc';
 const BASE = self.registration.scope;
 // On localhost, always prefer the network: cache-first makes local development
 // serve yesterday's bundle and turns every change into a debugging session.
@@ -17,6 +17,7 @@ const ASSETS = [
   'data/quiz.js', 'data/glossary.js', 'data/library.js', 'data/brush.js',
   'data/paths.js', 'data/practice.js', 'data/practice-gen.js', 'data/taxonomy.js',
   'data/t-french.js', 'data/practice-fr.js',
+  'data/t-service-cards.js', 'data/practice-cards.js', 'data/t-leadership.js', 'data/practice-lead.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png'
 ].map(p => new URL(p, BASE).toString());
 

@@ -2,6 +2,8 @@
 // Seed set — extended by generated content in data/practice-gen.js.
 import { GEN_DRILLS, GEN_SIMS } from './practice-gen.js';
 import { FR_DRILLS, FR_SIMS } from './practice-fr.js';
+import { CARD_DRILLS, CARD_SIMS } from './practice-cards.js';
+import { LEAD_DRILLS, LEAD_SIMS } from './practice-lead.js';
 
 const SEED_DRILLS = [
   {
@@ -85,8 +87,8 @@ const SEED_SIMS = [];
 
 const byId = arr => id => arr.find(x => x.id === id);
 
-export const DRILLS = [...SEED_DRILLS, ...SEED_DRILLS_2, ...GEN_DRILLS, ...FR_DRILLS];
-export const SIMS = [...SEED_SIMS, ...GEN_SIMS, ...FR_SIMS];
+export const DRILLS = [...SEED_DRILLS, ...SEED_DRILLS_2, ...GEN_DRILLS, ...FR_DRILLS, ...CARD_DRILLS, ...LEAD_DRILLS];
+export const SIMS = [...SEED_SIMS, ...GEN_SIMS, ...FR_SIMS, ...CARD_SIMS, ...LEAD_SIMS];
 
 export const drillById = byId(DRILLS);
 export const simById = byId(SIMS);

@@ -146,14 +146,33 @@ export const PATHS = [
       'Which metrics you would refuse to report, and why.',
       'How support feedback reaches product and marketing on a schedule.'
     ],
-    core: [16, 13, 11],
-    supporting: [14, 18, 15, 5],
-    mustKnow: ['t16-channels', 't16-metrics', 't16-selfserve', 't16-trust', 't13-literacy', 't16-lifecycle'],
-    artefacts: [16, 13],
-    sims: ['sim-service', 'sim-cro'],
+    core: [16, 20, 13],
+    supporting: [11, 14, 18, 15],
+    mustKnow: ['t20-ladder', 't20-wfm', 't20-quality', 't20-coaching', 't20-metrics', 't20-regulated', 't16-metrics', 't16-selfserve', 't13-literacy'],
+    artefacts: [20, 16, 13],
+    sims: ['sim-lead-opsreview', 'sim-service'],
     calcs: ['support', 'unit'],
     interviewRoles: ['Support lead / CX', 'Customer service', 'Any senior role'],
-    redFlag: 'AHT as a standalone target, QA with no calibration, and tagging that nobody uses.'
+    redFlag: 'AHT as a standalone target, QA with no calibration, shrinkage added instead of divided, and tagging that nobody uses.'
+  },
+  {
+    key: 'cards',
+    label: 'Bank cards advisor',
+    aka: 'Cards advisor · Credit card specialist · Fraud and disputes advisor · Banking contact-centre advisor',
+    proves: 'You can run a decline, a fraud alert or a dispute by the rules, state liability and timelines accurately, and keep the person while you do it.',
+    tests: [
+      'Scenario calls: a decline abroad, unauthorised charges, a third-party caller, a complaint on its fourth contact.',
+      'Whether you know the fork between fraud, merchant dispute and authorisation hold.',
+      'Whether you can say the liability rule and the complaint clock without hiding behind policy, and whether you verify before you disclose.'
+    ],
+    core: [16, 6, 3],
+    supporting: [20, 5, 13, 15],
+    mustKnow: ['t16-cards', 't16-rules', 't16-growth', 't16-deescalation', 't16-language', 't16-scripts', 't6-precision'],
+    artefacts: [16, 6],
+    sims: ['sim-cards', 'sim-service'],
+    calcs: ['support'],
+    interviewRoles: ['Cards advisor', 'Customer service', 'Any senior role'],
+    redFlag: 'Offering a branch to someone abroad, calling a free-trial conversion fraud, "the clock is paused", and quoting a figure with no source.'
   },
   {
     key: 'comms',
@@ -171,7 +190,7 @@ export const PATHS = [
     artefacts: [18, 5],
     sims: ['sim-comms', 'sim-service'],
     calcs: [],
-    interviewRoles: ['Communications manager', 'Any senior role'],
+    interviewRoles: ['Communications', 'Any senior role'],
     redFlag: 'AVE in a report, a holding statement that speculates on cause, and no stakeholder map.'
   }
 ];

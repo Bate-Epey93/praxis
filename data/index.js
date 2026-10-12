@@ -6,6 +6,7 @@ import strategy from './t-strategy.js';
 import comms from './t-comms.js';
 import service from './t-service.js';
 import french from './t-french.js';
+import leadership from './t-leadership.js';
 
 export { default as QUIZ } from './quiz.js';
 export { default as GLOSSARY } from './glossary.js';
@@ -23,7 +24,9 @@ const ORDER = [
   systems[2], systems[3],                              // 13 data, 14 UX
   strategy[1],                                         // 15 AI
   comms[0],                                            // 18 strategic communications
-  service[0], service[1],                              // 16 service, 17 career
+  service[0],                                          // 16 service and cards
+  leadership[0],                                       // 20 support leadership
+  service[1],                                          // 17 career
   french[0]                                            // 19 français québécois
 ];
 

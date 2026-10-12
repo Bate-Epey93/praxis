@@ -1,4 +1,6 @@
 // Tracks 16, 17 · Customer service craft and career
+import { CARD_SECTIONS } from './t-service-cards.js';
+
 export default [
 
 /* ══════════════════ 16 ══════════════════ */
@@ -351,7 +353,8 @@ TICKET LINK / LOGS: […]` }
           c: 'Writes answer-first, personalised replies; de-escalates with a framework; hits SLA; tags consistently; keeps the KB current.',
           s: 'Designs the SLA and QA scorecard; pairs efficiency with quality metrics; runs the root-cause loop with a costed report; handles abuse, privacy and legal-adjacent contacts by policy; and converts support data into product and marketing decisions.' }
       ]
-    }
+    },
+    ...CARD_SECTIONS
   ],
   artifact: {
     title: 'Support playbook — SLA, macros, QA scorecard, escalation map',
@@ -363,7 +366,8 @@ TICKET LINK / LOGS: […]` }
       { s: 'Write 4 full scenario responses', guide: 'Angry repeat contact, outage, refund refusal, chargeback threat. Include an annotation line per paragraph explaining the move — that annotation is what shows the craft.' },
       { s: 'Write 3 knowledge base articles in the 7-part structure', guide: 'Titles must be real customer questions. Include the one-line extractable answer, the success signal, the failure branches, and a reviewed-on date.' },
       { s: 'Build the QA scorecard and one calibrated review', guide: 'Five weighted dimensions with "meets" definitions, then score one real (anonymised) or invented reply and write the coaching note. Coach on the pattern, not the ticket.' },
-      { s: 'Write the monthly root-cause report', guide: 'Top five contact drivers ranked by volume × handle time × sentiment, each with an owner and an estimated cost in agent-hours, plus what you would send to marketing and product.' }
+      { s: 'Write the monthly root-cause report', guide: 'Top five contact drivers ranked by volume × handle time × sentiment, each with an owner and an estimated cost in agent-hours, plus what you would send to marketing and product.' },
+      { s: 'Write three cards-desk call breakdowns', guide: 'Declined abroad, a fraud alert with a free-trial conversion mixed in, and a replacement that went to the wrong address. For each: the real problem under the card problem, the fraud-or-dispute fork, liability and timing stated with their source, the complaint handling where it applies, and the after-call note. Use the figures from the cards sections and mark each one "confirm in-system".' },
     ]
   }
 },

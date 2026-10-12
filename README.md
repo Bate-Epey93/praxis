@@ -33,6 +33,7 @@ Built as a merge and large expansion of two earlier study apps (a Puffy CRO inte
 | 18 | Strategic Communications | Strategic comms |
 | 16 | Customer Service & CX Craft | Service & career |
 | 17 | Career as Product | Service & career |
+| 20 | Support Leadership: from advisor to head of unit | Service & career |
 | 19 | Écrire en français québécois | Français québécois |
 
 Each track carries: study sections with plain-English explainers, good/bad examples, benchmark data, real-world cases, senior-level pitfalls, five-minute drills, a junior/competent/senior rubric, per-section notes, and one **portfolio artefact** with step-by-step build guidance.
@@ -41,13 +42,15 @@ Track 09 includes a dedicated **Writing for SEO and AEO** section built from Goo
 
 Track 18 (**Strategic Communications**) covers corporate and executive narrative with investor-disclosure guardrails, internal comms and change, stakeholders and reputation, crisis and issues management, media relations and spokesperson craft, measurement against AMEC and Barcelona Principles V4.0, and comms operations including AI disclosure and synthetic-media response.
 
+Track 16 now carries three sections for a bank cards advisor (the call clusters and what clients want underneath, the rules of liability, disputes, complaints, vulnerable clients and verification, and the advisor-to-specialist rung), built from public RBC pages, the Bank Act and FCPF Regulations, FCAC, OBSI, the CBA Seniors Code, CAFC and OPC findings as of 12 October 2026. Track 20 (**Support Leadership**) covers the ladder from advisor to head of unit: workforce management, quality and calibration, coaching, the metrics ladder, knowledge management, AI in the contact centre, and the Canadian regulated-complaints regime.
+
 ## The practice engine
 
 | Surface | What it does |
 |---|---|
 | **Today** | Assembles the day: the next thing in your plan, one timed drill, cards due, weak spots, the artefact in progress, and one interview question to answer out loud. |
-| **Prep paths** | Nine role families (copywriter, content strategist, content SEO, PMM, lifecycle, CRO, support specialist, support lead, communications) × three time budgets. Generates an ordered, checkable plan: what to read, write, rehearse. |
-| **Practice** | 65 timed writing drills and 8 full take-home simulations. Simulations ship with a company, a scenario, materials to reason from, a deliverable, a countdown, and a weighted rubric you score yourself against. |
+| **Prep paths** | Ten role families (copywriter, content strategist, content SEO, PMM, lifecycle, CRO, support specialist, bank cards advisor, support lead, communications) × three time budgets. Generates an ordered, checkable plan: what to read, write, rehearse. |
+| **Practice** | 81 timed writing drills and 11 full take-home simulations. Simulations ship with a company, a scenario, materials to reason from, a deliverable, a countdown, and a weighted rubric you score yourself against. |
 | **Portfolio** | Every artefact has a workspace. Write it in the app, export it as Markdown or as a clean printable document. |
 | **JD mapper** | Paste a job advert. It matches the language against a 40-competency taxonomy (470 job-description phrases), shows coverage from what you have actually studied and built, and splits requirements into can-evidence / thin / genuine gaps. |
 | **Readiness** | A weighted score per role family, biased toward things a hiring manager can see: must-know sections, finished artefacts, simulations completed. |
